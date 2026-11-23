@@ -1,8 +1,12 @@
 /**
  * Portofolio Arsitektur - Steven Nata, S.Ars (Universitas Tarumanagara)
  * Dark Blueprint & Brutalist Interactive Architecture Engine
+ * Features: Live CAD HUD, Sun-Path & Biophilic Simulator, Web Audio FX, Blueprint Inversion
  */
 
+// ==========================================
+// 1. DATASET PROYEK ARSITEKTUR TERKURASI
+// ==========================================
 const projectsData = [
   {
     id: "proj-1",
@@ -12,16 +16,23 @@ const projectsData = [
     categoryLabel: "Tugas Akhir UNTAR",
     year: "2024",
     location: "Kawasan Gunung Sahari, Jakarta Pusat",
+    sheetNo: "A-101",
+    scale: "1:200",
     role: "Desainer Utama & Penulis Skripsi (NIM 315190059)",
-    advisor: "Agnatasya Listianti Mustaram, S.T., M.Sc. (Publikasi Jurnal STUPA UNTAR)",
+    advisor: "Agnatasya Listianti Mustaram, S.T., M.Sc. (Publikasi Jurnal STUPA)",
     software: ["Autodesk Revit BIM", "Rhino 3D", "Ladybug Solar Tools", "Enscape", "AutoCAD"],
     heroImage: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1400&q=80",
-    summary: "Proyek Tugas Akhir Sarjana Arsitektur UNTAR (2024) yang juga diterbitkan di Jurnal Ilmiah STUPA. Merespons penurunan vitalitas kawasan perkantoran dan komersial Gunung Sahari yang mulai terbengkalai melalui pendekatan 'Placemaking' dan 'Desain Biofilik', menghadirkan ruang publik terbuka yang ramah iklim mikro tropis Jakarta.",
+    summary: "Proyek Tugas Akhir Sarjana Arsitektur UNTAR (2024) yang diterbitkan di Jurnal Ilmiah STUPA. Menjawab kemunduran fungsi dan degradasi koridor komersial Gunung Sahari melalui strategi 'Placemaking' dan 14 pola 'Desain Biofilik'. Menghasilkan ruang publik terintegrasi yang mampu menurunkan panas radiasi perkotaan hingga 4.2°C.",
     stats: [
-      { label: "GFA (Luas Lantai)", value: "34.800 m²" },
-      { label: "Metodologi", value: "Placemaking & Biofilik" },
-      { label: "Publikasi Ilmiah", value: "Jurnal STUPA (2024)" },
-      { label: "Mitigasi Panas", value: "-4.2°C Urban Heat" }
+      { label: "GFA (Luas Lantai)", value: "34.800 m²", unit: "Area Terbina" },
+      { label: "Metodologi", value: "Placemaking", unit: "14 Pola Biofilik" },
+      { label: "Publikasi Ilmiah", value: "Jurnal STUPA", unit: "Vol. 6 No. 2 (2024)" },
+      { label: "Mitigasi Termal", value: "-4.2°C", unit: "Urban Heat Island" }
+    ],
+    technicalCallouts: [
+      { id: "C1", label: "Core Struktural", desc: "Shear wall 450mm mutu f'c 40 MPa terintegrasi jalur evakuasi kebakaran dan core utilitas MEP." },
+      { id: "C2", label: "Kanopi Biofilik", desc: "Kisi-kisi peneduh parametrik kayu rekayasa dengan sudut kemiringan 32° sesuai lintasan matahari Jakarta." },
+      { id: "C3", label: "Kolam Evaporatif", desc: "Water feature resirkulasi air hujan untuk mendinginkan udara panas sebelum memasuki atrium publik." }
     ],
     tabs: {
       overview: {
@@ -31,14 +42,14 @@ const projectsData = [
           "GUNSAR HUB dirancang sebagai 'oasis perkotaan' dengan menerapkan 14 pola desain biofilik (Biophilic Design). Bentuk massa bangunan berpori (porous architecture) memaksimalkan penetrasi angin muson dan menciptakan koridor peneduh alami sehingga pejalan kaki terlindungi dari teriknya panas matahari Jakarta Pusat."
         ],
         highlights: [
-          "Integrasi unsur alami (vegetasi tropis bertingkat, kolam mikroklimat pendingin, dan material kayu daur ulang).",
-          "Podium interaktif terbuka multi-generasi untuk UMKM kreatif, ruang komunal seni, dan co-working publik.",
+          "Integrasi unsur alami: vegetasi tropis bertingkat, kolam mikroklimat pendingin, dan material kayu daur ulang.",
+          "Podium interaktif terbuka multi-generasi untuk UMKM kreatif, ruang komunal seni, dan amphitheater publik.",
           "Diterbitkan di Jurnal Sains, Teknologi, Urban, Perancangan, Arsitektur (STUPA), Vol. 6 No. 2, Oktober 2024."
         ]
       },
       diagrams: {
-        heading: "Analisis Tapak, Matriks Biofilik & Diagram Transformasi Massa",
-        description: "Metodologi perancangan terukur berbasis data iklim mikro Jakarta Pusat dan simulasi radiasi panas.",
+        heading: "Analisis Tapak, Matriks Biofilik & Transformasi Massa",
+        description: "Metodologi perancangan kuantitatif berbasis data mikroklimat Jakarta Pusat dan pemodelan radiasi matahari Ladybug Tools.",
         images: [
           {
             url: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80",
@@ -51,8 +62,8 @@ const projectsData = [
         ]
       },
       drawings: {
-        heading: "Gambar Kerja, Denah Ruang Publik & Potongan Teknis",
-        description: "Dokumentasi gambar kerja BIM LOD 350 yang mengintegrasikan struktur bentang lebar dan sistem irigasi lansekap vertikal.",
+        heading: "Gambar Kerja, Denah Ruang Publik & Potongan Teknis (BIM LOD 350)",
+        description: "Dokumentasi gambar kerja yang mengintegrasikan bentang lebar struktur komposit dan sistem irigasi lansekap vertikal terpadu.",
         images: [
           {
             url: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
@@ -88,16 +99,22 @@ const projectsData = [
     categoryLabel: "Hunian Tropis",
     year: "2023",
     location: "BSD City, Tangerang Selatan",
+    sheetNo: "A-204",
+    scale: "1:100",
     role: "Lead Architectural Designer (Studio Praktek Mandiri)",
     advisor: "Kolaborasi Praktik Studio Arsitektur",
     software: ["AutoCAD", "SketchUp", "Lumion 12", "Photoshop", "Climate Consultant"],
     heroImage: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=80",
     summary: "Hunian tapak 2 lantai yang mengeksplorasi material lokal bata terakota berongga sebagai 'second skin'. Dirancang untuk meminimalkan ketergantungan pada pendingin udara buatan (AC) hingga 65% melalui courtyard dalam dan efek cerobong udara (stack effect).",
     stats: [
-      { label: "Luas Lahan", value: "240 m²" },
-      { label: "Luas Bangunan", value: "285 m²" },
-      { label: "Konsumsi AC", value: "Turun 65%" },
-      { label: "Tipe Ruang", value: "Courtyard Inner Garden" }
+      { label: "Luas Lahan", value: "240 m²", unit: "Tapak Tanah" },
+      { label: "Luas Bangunan", value: "285 m²", unit: "2 Lantai" },
+      { label: "Konsumsi AC", value: "Turun 65%", unit: "Energi Hemat" },
+      { label: "Tipe Ruang", value: "Courtyard", unit: "Inner Garden" }
+    ],
+    technicalCallouts: [
+      { id: "C1", label: "Double Brick Skin", desc: "Anyaman bata terakota berongga dengan celah 40mm penyaring 70% silau panas matahari barat." },
+      { id: "C2", label: "Courtyard Void", desc: "Void pusat 4x6m dengan kolam refleksi dangkal penghasil efek pendinginan adiabatik." }
     ],
     tabs: {
       overview: {
@@ -156,16 +173,22 @@ const projectsData = [
     categoryLabel: "Juara 2 Sayembara Nasional IAI",
     year: "2023",
     location: "Kawasan Bersejarah Pasar Baru, Jakarta Pusat",
+    sheetNo: "C-302",
+    scale: "1:500",
     role: "Team Leader / Concept & 3D Visualization",
     advisor: "Sayembara Terbuka Ikatan Arsitek Indonesia (IAI)",
     software: ["Rhino 3D", "Grasshopper", "Twinmotion", "AutoCAD", "Adobe InDesign"],
     heroImage: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1400&q=80",
     summary: "Proposal sayembara revitalisasi koridor bersejarah Pasar Baru Jakarta yang memenangkan Juara 2 Nasional. Mempertahankan fasad cagar budaya kolonial Art Deco sembari menyisipkan kanopi kanvas tarik parametrik untuk menaungi pejalan kaki dan ruang seni seniman lokal.",
     stats: [
-      { label: "Peringkat", value: "Juara 2 / 1st Runner Up" },
-      { label: "Panjang Koridor", value: "450 Meter" },
-      { label: "Zonasi Pejalan Kaki", value: "100% Car-Free Zone" },
-      { label: "Konservasi Cagar Budaya", value: "18 Bangunan Bersejarah" }
+      { label: "Peringkat", value: "Juara 2 Nasional", unit: "Sayembara IAI" },
+      { label: "Panjang Koridor", value: "450 Meter", unit: "Zonasi Pejalan Kaki" },
+      { label: "Bebas Kendaraan", value: "100%", unit: "Car-Free Pedestrian" },
+      { label: "Cagar Budaya", value: "18 Fasad", unit: "Konservasi Terjaga" }
+    ],
+    technicalCallouts: [
+      { id: "C1", label: "Tensegrity Mast", desc: "Tiang baja mandiri (independent column) bebas dari dinding bersejarah cagar budaya." },
+      { id: "C2", label: "PTFE Membrane", desc: "Membran peneduh berdaya pantul panas 85% dengan sistem talang air hujan terintegrasi." }
     ],
     tabs: {
       overview: {
@@ -220,16 +243,22 @@ const projectsData = [
     categoryLabel: "Komersial & Mixed-Use",
     year: "2023",
     location: "TB Simatupang Business Corridor, Jakarta Selatan",
+    sheetNo: "A-410",
+    scale: "1:250",
     role: "Junior Architect Intern (Design & BIM Modeling)",
     advisor: "Kolaborasi Tim Sayembara Arsitektur Komersial",
     software: ["Autodesk Revit BIM", "Ladybug Analysis", "V-Ray 6", "Rhino 3D"],
     heroImage: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=80",
     summary: "Menara perkantoran komersial 28 lantai bersertifikasi Greenship Platinum yang memadukan ruang kerja fleksibel era hybrid dengan teras kantilever biophilic bertingkat di setiap interval 4 lantai.",
     stats: [
-      { label: "GFA", value: "36.200 m²" },
-      { label: "Target Green Building", value: "Greenship Platinum" },
-      { label: "Area Hijau Vertikal", value: "4.200 m²" },
-      { label: "Struktur", value: "Composite Steel & RC Core" }
+      { label: "GFA", value: "36.200 m²", unit: "Gross Floor Area" },
+      { label: "Sertifikasi Hijau", value: "Greenship", unit: "Peringkat Platinum" },
+      { label: "Area Hijau", value: "4.200 m²", unit: "Vegetasi Vertikal" },
+      { label: "Sistem Struktur", value: "Diagrid Steel", unit: "RC Core Lift" }
+    ],
+    technicalCallouts: [
+      { id: "C1", label: "External Diagrid", desc: "Struktur eksoskeleton baja tubular hemat ruang dalam dan tahan guncangan gempa." },
+      { id: "C2", label: "Sky Terrace Planter", desc: "Sistem planter box kantilever dengan media tanam hidroponik ringan dan irigasi tetes otomatis." }
     ],
     tabs: {
       overview: {
@@ -284,16 +313,22 @@ const projectsData = [
     categoryLabel: "Riset Parametrik & Fabrikasi",
     year: "2024",
     location: "Plaza Kampus 1 Universitas Tarumanagara, Grogol",
+    sheetNo: "R-501",
+    scale: "1:20 Mockup",
     role: "Computational Design & Digital Fabrication Lead",
     advisor: "Studio Perancangan Komputasional Arsitektur UNTAR",
     software: ["Rhino 7", "Grasshopper", "Karamba3D FEA", "CNC Mill Scripting", "Laser Cutter"],
     heroImage: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=1400&q=80",
     summary: "Eksplorasi struktur cangkang kayu lengkung ganda (gridshell) menggunakan algoritma komputasional Grasshopper. Setiap elemen sambungan kayu lapis interlocking dipotong menggunakan mesin CNC tanpa baut logam, diuji dengan model fisik skala 1:10 dan 1:1 mockup.",
     stats: [
-      { label: "Bentang Struktur", value: "9.2 Meter" },
-      { label: "Jumlah Komponen Unik", value: "384 Keping Kayu" },
-      { label: "Metode Sambungan", value: "Zero-Bolt Friction Interlock" },
-      { label: "Toleransi Presisi", value: "±0.5 mm" }
+      { label: "Bentang Struktur", value: "9.2 Meter", unit: "Bebas Kolom" },
+      { label: "Komponen Unik", value: "384 Keping", unit: "Pola Fabrikasi CNC" },
+      { label: "Sambungan", value: "Friction Lock", unit: "Zero-Bolt Joint" },
+      { label: "Toleransi", value: "±0.5 mm", unit: "Akurasi Mesin" }
+    ],
+    technicalCallouts: [
+      { id: "C1", label: "Interlocking Joint", desc: "Sambungan celah lidah-alur presisi tinggi yang mengunci mandiri akibat gaya gravitasi struktur." },
+      { id: "C2", label: "Double-Curvature Rib", desc: "Rusuk kayu lapis birch multi-layer dengan ketebalan 18mm teruji beban lendutan Karamba3D." }
     ],
     tabs: {
       overview: {
@@ -342,16 +377,202 @@ const projectsData = [
   }
 ];
 
-// Initialize on DOM ready
-document.addEventListener("DOMContentLoaded", () => {
-  renderProjects("all");
-  setupFilterButtons();
-  setupModalEvents();
-  setupRecruiterActions();
-  setupKeyboardShortcuts();
-});
+// ==========================================
+// 2. WEB AUDIO SYNTHESIZER (TECHNICAL AUDIO FX)
+// ==========================================
+let audioContext = null;
+let soundEnabled = false;
 
-// Render Project Grid
+function initAudio() {
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+}
+
+function playCadSound(type = "tick") {
+  if (!soundEnabled) return;
+  try {
+    initAudio();
+    if (audioContext.state === 'suspended') {
+      audioContext.resume();
+    }
+    const osc = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    osc.connect(gain);
+    gain.connect(audioContext.destination);
+
+    const now = audioContext.currentTime;
+
+    if (type === "tick") {
+      // Subtle precision tick
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(1400, now);
+      osc.frequency.exponentialRampToValueAtTime(800, now + 0.03);
+      gain.gain.setValueAtTime(0.04, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+      osc.start(now);
+      osc.stop(now + 0.03);
+    } else if (type === "blip") {
+      // High-tech CAD snap sound
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(880, now);
+      osc.frequency.setValueAtTime(1760, now + 0.04);
+      gain.gain.setValueAtTime(0.06, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+      osc.start(now);
+      osc.stop(now + 0.08);
+    }
+  } catch (e) {
+    // Audio context fallback safe
+  }
+}
+
+window.toggleSound = function() {
+  soundEnabled = !soundEnabled;
+  if (soundEnabled) {
+    initAudio();
+    playCadSound("blip");
+    showToast("CAD Audio Feedback: AKTIF");
+  } else {
+    showToast("CAD Audio Feedback: NON-AKTIF");
+  }
+  const btn = document.getElementById("sound-toggle-btn");
+  if (btn) {
+    btn.innerHTML = soundEnabled 
+      ? `<span class="w-2 h-2 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span>AUDIO: ON`
+      : `<span class="w-2 h-2 rounded-full bg-zinc-600 mr-1.5"></span>AUDIO: OFF`;
+  }
+};
+
+// ==========================================
+// 3. BLUEPRINT THEME INVERSION ENGINE
+// ==========================================
+window.toggleBlueprintMode = function() {
+  playCadSound("blip");
+  document.body.classList.toggle("blueprint-mode");
+  const isBlueprint = document.body.classList.contains("blueprint-mode");
+  
+  const modeText = document.getElementById("hud-mode-text");
+  if (modeText) {
+    modeText.innerText = isBlueprint ? "MODE: CYAN DRAFTING BLUEPRINT" : "MODE: CAD OBSIDIAN SLATE";
+  }
+
+  showToast(isBlueprint ? "Tema beralih: Cyan Drafting Blueprint" : "Tema beralih: Dark Obsidian Slate");
+};
+
+// ==========================================
+// 4. LIVE CAD COORDINATES HUD TRACKER
+// ==========================================
+function setupCadHud() {
+  const hudElement = document.getElementById("cad-coords-live");
+  if (!hudElement) return;
+
+  let lastX = 0;
+  let lastY = 0;
+
+  window.addEventListener("mousemove", (e) => {
+    // Calculate simulated architectural meters based on viewport
+    const archX = ((e.clientX / window.innerWidth) * 120 - 60).toFixed(2);
+    const archY = (((window.innerHeight - e.clientY) / window.innerHeight) * 80).toFixed(2);
+    const azimuth = (Math.atan2(e.clientX - window.innerWidth/2, e.clientY - window.innerHeight/2) * (180 / Math.PI) + 180).toFixed(1);
+
+    hudElement.innerHTML = `X: <span class="text-sky-400">${archX > 0 ? '+' : ''}${archX}m</span> &nbsp; Y: <span class="text-sky-400">+${archY}m</span> &nbsp; AZM: <span class="text-amber-400">${azimuth}°</span> &nbsp; SCALE: <span class="text-white">1:100</span>`;
+  });
+}
+
+// ==========================================
+// 5. BIOPHILIC & SUN-PATH SIMULATOR (GUNSAR HUB)
+// ==========================================
+function setupBiophilicSimulator() {
+  const sunSlider = document.getElementById("sim-sun-hour");
+  const canopySlider = document.getElementById("sim-canopy-density");
+  const windSlider = document.getElementById("sim-wind-speed");
+
+  if (!sunSlider || !canopySlider || !windSlider) return;
+
+  function recalculateSimulation() {
+    playCadSound("tick");
+
+    const hour = parseFloat(sunSlider.value);
+    const canopy = parseFloat(canopySlider.value);
+    const wind = parseFloat(windSlider.value);
+
+    // Update labels
+    const hourFormatted = `${Math.floor(hour).toString().padStart(2, '0')}:${(Math.round((hour % 1) * 60)).toString().padStart(2, '0')} WIB`;
+    document.getElementById("sim-sun-label").innerText = hourFormatted;
+    document.getElementById("sim-canopy-label").innerText = `${canopy}%`;
+    document.getElementById("sim-wind-label").innerText = `${wind.toFixed(1)} m/s`;
+
+    // Calculate solar elevation angle (Peak at 12:00)
+    // Range approx 25° at 08:00 to 86° at 12:00 to 20° at 17:00
+    const hoursFromNoon = Math.abs(hour - 12);
+    const solarElevation = Math.max(15, 88 - (hoursFromNoon * 14.5));
+
+    // Base urban ambient temperature in Central Jakarta
+    let baseUrbanTemp = 31.0 + (5.5 * Math.sin((hour - 8) / 9 * Math.PI));
+    if (baseUrbanTemp < 28) baseUrbanTemp = 28;
+
+    // Direct solar insolation (W/m2)
+    const baseInsolation = Math.max(80, Math.sin((solarElevation * Math.PI) / 180) * 980);
+    const actualInsolation = baseInsolation * (1 - (canopy * 0.0075));
+
+    // Biophilic thermal reduction (Placemaking formula from Steven Nata's thesis)
+    const canopyCooling = (canopy / 100) * 3.4; // up to 3.4°C cooling
+    const windCooling = (wind / 5) * 1.5;       // up to 1.5°C cooling
+    const totalReduction = canopyCooling + windCooling;
+
+    const microclimateTemp = (baseUrbanTemp - totalReduction).toFixed(1);
+    const comfortStatus = microclimateTemp <= 28.5 ? "Sangat Nyaman (Biofilik Sejuk)" : microclimateTemp <= 31 ? "Zona Nyaman Termal Tropis" : "Beban Panas Sedang";
+
+    // Update UI Stats
+    document.getElementById("sim-res-urban").innerText = `${baseUrbanTemp.toFixed(1)}°C`;
+    document.getElementById("sim-res-micro").innerText = `${microclimateTemp}°C`;
+    document.getElementById("sim-res-delta").innerText = `-${totalReduction.toFixed(1)}°C`;
+    document.getElementById("sim-res-lux").innerText = `${Math.round(actualInsolation)} W/m²`;
+    document.getElementById("sim-res-status").innerText = comfortStatus;
+
+    // Update Reactive SVG Sun & Shadow Diagram
+    updateSimulationSvg(solarElevation, hour, canopy, totalReduction);
+  }
+
+  function updateSimulationSvg(elevation, hour, canopy, delta) {
+    const sunOrb = document.getElementById("svg-sun-orb");
+    const shadowPolygon = document.getElementById("svg-shadow");
+    const canopyMesh = document.getElementById("svg-canopy-layer");
+
+    if (!sunOrb || !shadowPolygon || !canopyMesh) return;
+
+    // Sun arc trajectory
+    const progress = (hour - 8) / 9; // 0 to 1
+    const sunX = 50 + progress * 260; // 50 to 310
+    const sunY = 160 - Math.sin(progress * Math.PI) * 120; // Arc height
+
+    sunOrb.setAttribute("cx", sunX);
+    sunOrb.setAttribute("cy", sunY);
+
+    // Shadow calculation
+    const buildingHeight = 70;
+    const shadowLength = (buildingHeight / Math.tan((elevation * Math.PI) / 180)) * (hour < 12 ? -1 : 1);
+    const shadowEndX = Math.min(340, Math.max(20, 180 + shadowLength));
+
+    shadowPolygon.setAttribute("points", `140,160 220,160 ${shadowEndX},160`);
+    shadowPolygon.setAttribute("opacity", (0.2 + (canopy / 100) * 0.4).toFixed(2));
+
+    // Canopy opacity
+    canopyMesh.setAttribute("opacity", (canopy / 100).toFixed(2));
+  }
+
+  sunSlider.addEventListener("input", recalculateSimulation);
+  canopySlider.addEventListener("input", recalculateSimulation);
+  windSlider.addEventListener("input", recalculateSimulation);
+
+  // Initial trigger
+  recalculateSimulation();
+}
+
+// ==========================================
+// 6. RENDER PROJECT GRID DENGAN KOP GAMBAR
+// ==========================================
 function renderProjects(filter = "all") {
   const container = document.getElementById("projects-grid");
   if (!container) return;
@@ -363,44 +584,62 @@ function renderProjects(filter = "all") {
   container.innerHTML = filtered.map((project, index) => {
     return `
       <article 
-        class="project-card group relative bg-zinc-950/80 border border-zinc-800 hover:border-sky-500/60 transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
+        class="project-card group relative bg-zinc-950/90 border border-zinc-800 hover:border-sky-400 transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer corner-marks"
         onclick="openProjectModal('${project.id}')"
         tabindex="0"
         role="button"
-        aria-label="Lihat detail proyek ${project.title}"
+        aria-label="Buka gambar kerja dan studi kasus ${project.title}"
         onkeydown="if(event.key==='Enter'||event.key===' ') { openProjectModal('${project.id}'); event.preventDefault(); }"
+        onmouseenter="playCadSound('tick')"
       >
-        <!-- Technical Crosshair Marks -->
-        <span class="absolute top-2 left-2 text-zinc-600 font-mono text-[10px] pointer-events-none select-none">+[${String(index + 1).padStart(2, '0')}]</span>
-        <span class="absolute top-2 right-2 text-zinc-600 font-mono text-[10px] pointer-events-none select-none">${project.year}</span>
+        <!-- Top CAD Title Strip (Header Gambar Kerja) -->
+        <div class="px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 flex items-center justify-between font-mono text-[11px] text-zinc-400">
+          <div class="flex items-center space-x-2">
+            <span class="w-1.5 h-1.5 bg-sky-400 rounded-full animate-pulse"></span>
+            <span class="text-white font-bold">SHEET: ${project.sheetNo}</span>
+            <span class="text-zinc-600">|</span>
+            <span>SCALE ${project.scale}</span>
+          </div>
+          <span class="text-sky-400 uppercase text-[10px] tracking-wider">${project.year}</span>
+        </div>
 
-        <!-- Image Container -->
-        <div class="relative w-full h-64 md:h-72 overflow-hidden bg-zinc-900 border-b border-zinc-800/80">
+        <!-- Image Container with Scanline effect -->
+        <div class="relative w-full h-64 sm:h-72 overflow-hidden bg-black border-b border-zinc-800/80">
+          <div class="scanline"></div>
           <img 
             src="${project.heroImage}" 
             alt="Proyek Arsitektur: ${project.title} - ${project.subtitle}" 
-            class="project-thumb w-full h-full object-cover transition-transform duration-700 ease-out brightness-90 group-hover:brightness-100"
+            class="project-thumb w-full h-full object-cover transition-transform duration-700 ease-out brightness-90 group-hover:brightness-105"
             loading="lazy"
           />
-          <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/30 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent opacity-85 group-hover:opacity-60 transition-opacity"></div>
           
+          <!-- Bottom Badges on Image -->
           <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between pointer-events-none">
-            <span class="px-2.5 py-1 text-[11px] font-mono tracking-wider uppercase bg-zinc-900/90 text-sky-400 border border-sky-500/30 rounded backdrop-blur-sm">
+            <span class="px-2.5 py-1 text-[11px] font-mono tracking-wider uppercase bg-zinc-900/95 text-sky-400 border border-sky-400/40 rounded backdrop-blur">
               ${project.categoryLabel}
             </span>
-            <span class="text-xs font-mono text-zinc-400 bg-zinc-950/80 px-2 py-0.5 rounded border border-zinc-800">
+            <span class="text-[11px] font-mono text-zinc-300 bg-black/80 px-2 py-0.5 rounded border border-zinc-700">
               ${project.location.split(',')[0]}
             </span>
           </div>
         </div>
 
+        <!-- Technical Dimension Bar -->
+        <div class="px-6 pt-3">
+          <div class="dimension-line">
+            <span>◄ DIM: ${(30 + index * 12).toFixed(1)}m ►</span>
+            <span>LEVEL ±0.00</span>
+          </div>
+        </div>
+
         <!-- Content Area -->
-        <div class="p-6 flex-1 flex flex-col justify-between">
+        <div class="p-6 pt-3 flex-1 flex flex-col justify-between">
           <div>
             <h3 class="font-display text-xl md:text-2xl font-bold text-white group-hover:text-sky-300 transition-colors mb-1">
               ${project.title}
             </h3>
-            <p class="text-xs font-mono text-zinc-400 tracking-wide uppercase mb-3">
+            <p class="text-xs font-mono text-sky-400 tracking-wide mb-3">
               ${project.subtitle}
             </p>
             <p class="text-zinc-300 text-sm leading-relaxed line-clamp-3 mb-4">
@@ -408,24 +647,31 @@ function renderProjects(filter = "all") {
             </p>
           </div>
 
-          <!-- Bottom Metadata & Tech Stack -->
-          <div class="pt-4 border-t border-zinc-800/80 flex flex-wrap items-center justify-between gap-2">
-            <div class="flex flex-wrap gap-1.5">
-              ${project.software.slice(0, 3).map(tool => `
-                <span class="text-[10px] font-mono px-2 py-0.5 bg-zinc-900 text-zinc-400 border border-zinc-800 rounded">
-                  ${tool}
-                </span>
-              `).join('')}
-              ${project.software.length > 3 ? `
-                <span class="text-[10px] font-mono px-1.5 py-0.5 text-zinc-500">
-                  +${project.software.length - 3}
-                </span>
-              ` : ''}
+          <!-- Bottom Technical Spec Block (Mini Kop Gambar) -->
+          <div class="pt-4 border-t border-zinc-800/80 space-y-3">
+            <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
+              <div class="p-1.5 bg-zinc-900/60 border border-zinc-800 rounded">
+                <span class="text-zinc-500 block text-[9px] uppercase">PARAMETER UTAMA</span>
+                <span class="text-white font-bold">${project.stats[0].label}: ${project.stats[0].value}</span>
+              </div>
+              <div class="p-1.5 bg-zinc-900/60 border border-zinc-800 rounded">
+                <span class="text-zinc-500 block text-[9px] uppercase">KINERJA DESAIN</span>
+                <span class="text-amber-400 font-bold">${project.stats[3].label}: ${project.stats[3].value}</span>
+              </div>
             </div>
 
-            <span class="inline-flex items-center text-xs font-mono text-sky-400 group-hover:translate-x-1 transition-transform">
-              Buka Studi Kasus &rarr;
-            </span>
+            <div class="flex items-center justify-between text-xs font-mono pt-1">
+              <span class="text-zinc-400 flex items-center">
+                <svg class="w-3.5 h-3.5 mr-1 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+                Inspeksi Gambar CAD
+              </span>
+              <span class="text-sky-400 group-hover:translate-x-1 transition-transform inline-flex items-center font-bold">
+                Buka Lembar Detail &rarr;
+              </span>
+            </div>
           </div>
         </div>
       </article>
@@ -438,6 +684,7 @@ function setupFilterButtons() {
   const buttons = document.querySelectorAll("[data-filter]");
   buttons.forEach(btn => {
     btn.addEventListener("click", () => {
+      playCadSound("blip");
       buttons.forEach(b => {
         b.classList.remove("bg-sky-500", "text-black", "border-sky-400", "font-semibold");
         b.classList.add("bg-zinc-900/80", "text-zinc-300", "border-zinc-700");
@@ -451,12 +698,14 @@ function setupFilterButtons() {
   });
 }
 
-// Global active modal project tracking
+// ==========================================
+// 7. MODAL DEEP-DIVE DENGAN INSPEKTOR CAD
+// ==========================================
 let currentActiveProjectId = null;
 let currentActiveTab = "overview";
 
-// Open Project Modal
 window.openProjectModal = function(projectId) {
+  playCadSound("blip");
   const project = projectsData.find(p => p.id === projectId);
   if (!project) return;
 
@@ -469,17 +718,16 @@ window.openProjectModal = function(projectId) {
   renderModalContent(project);
   modal.classList.remove("hidden");
   modal.classList.add("flex");
-  document.body.style.overflow = "hidden"; // lock scroll
+  document.body.style.overflow = "hidden";
 
-  // Focus trap to close button
   setTimeout(() => {
     const closeBtn = document.getElementById("modal-close-btn");
     if (closeBtn) closeBtn.focus();
   }, 50);
 };
 
-// Close Project Modal
 window.closeProjectModal = function() {
+  playCadSound("tick");
   const modal = document.getElementById("project-modal");
   if (!modal) return;
 
@@ -489,13 +737,12 @@ window.closeProjectModal = function() {
   currentActiveProjectId = null;
 };
 
-// Switch Modal Tab
 window.switchModalTab = function(tabKey) {
+  playCadSound("tick");
   currentActiveTab = tabKey;
   const project = projectsData.find(p => p.id === currentActiveProjectId);
   if (!project) return;
 
-  // Update Tab buttons appearance
   const tabBtns = document.querySelectorAll(".modal-tab-btn");
   tabBtns.forEach(b => {
     if (b.getAttribute("data-tab") === tabKey) {
@@ -507,53 +754,57 @@ window.switchModalTab = function(tabKey) {
     }
   });
 
-  // Update dynamic tab content pane
   const pane = document.getElementById("modal-tab-content");
   if (!pane) return;
 
   pane.innerHTML = renderTabBody(project, tabKey);
 };
 
-// Render Full Modal Body
 function renderModalContent(project) {
   const container = document.getElementById("modal-container");
   if (!container) return;
 
   container.innerHTML = `
-    <!-- Modal Header Toolbar -->
-    <div class="px-6 py-4 border-b border-zinc-800 flex items-center justify-between bg-zinc-950/90 backdrop-blur sticky top-0 z-20">
+    <!-- Top Architectural Title Block (Kop Gambar Header) -->
+    <div class="px-6 py-3 border-b border-zinc-800 flex flex-wrap items-center justify-between bg-zinc-950/95 sticky top-0 z-20 font-mono text-xs">
       <div class="flex items-center space-x-3">
-        <span class="font-mono text-xs uppercase px-2.5 py-1 bg-sky-950/80 text-sky-400 border border-sky-800/80 rounded">
-          ${project.categoryLabel}
+        <span class="px-2.5 py-1 bg-sky-950 text-sky-400 border border-sky-600 rounded font-bold">
+          SHEET ${project.sheetNo}
         </span>
-        <span class="text-zinc-500 font-mono text-xs">/</span>
-        <span class="text-xs font-mono text-zinc-400">${project.year} • ${project.location}</span>
+        <span class="text-zinc-400 hidden sm:inline">PROYEK: ${project.title}</span>
+        <span class="text-zinc-600 hidden sm:inline">|</span>
+        <span class="text-amber-400">${project.scale}</span>
       </div>
 
-      <button 
-        id="modal-close-btn"
-        onclick="closeProjectModal()" 
-        class="text-zinc-400 hover:text-white hover:bg-zinc-800 p-2 rounded transition-colors text-sm font-mono flex items-center space-x-1"
-        aria-label="Tutup jendela detail proyek (ESC)"
-      >
-        <span>[ESC]</span>
-        <svg class="w-5 h-5 ml-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
+      <div class="flex items-center space-x-3">
+        <button 
+          id="modal-close-btn"
+          onclick="closeProjectModal()" 
+          class="text-zinc-400 hover:text-white hover:bg-zinc-800 px-3 py-1.5 rounded transition-colors text-xs font-mono flex items-center space-x-1 border border-zinc-800"
+          aria-label="Tutup jendela (ESC)"
+        >
+          <span>[ESC] TUTUP</span>
+          <svg class="w-4 h-4 ml-1 inline text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
     </div>
 
     <!-- Modal Main Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 min-h-[600px]">
+    <div class="grid grid-cols-1 lg:grid-cols-12 min-h-[600px] overflow-hidden">
       
-      <!-- Left / Top: Visual & Deep-Dive Workspace (8 Cols) -->
-      <div class="lg:col-span-8 p-6 md:p-8 border-b lg:border-b-0 lg:border-r border-zinc-800 space-y-6 overflow-y-auto max-h-[80vh]">
-        <!-- Title & Subtitle -->
+      <!-- Workspace 8 Kolom: Tabbed Process Explorer -->
+      <div class="lg:col-span-8 p-6 md:p-8 border-b lg:border-b-0 lg:border-r border-zinc-800 space-y-6 overflow-y-auto max-h-[82vh]">
+        
         <div>
+          <span class="font-mono text-xs text-sky-400 uppercase tracking-widest block mb-1">
+            // LEMBAR ARSITEKTURAL ${project.sheetNo} • ${project.categoryLabel}
+          </span>
           <h2 class="font-display text-2xl md:text-4xl font-bold text-white mb-2">
             ${project.title}
           </h2>
-          <p class="font-mono text-sm text-sky-400 tracking-wide">
+          <p class="font-mono text-sm text-sky-300">
             ${project.subtitle}
           </p>
         </div>
@@ -564,9 +815,25 @@ function renderModalContent(project) {
             <div>
               <span class="block text-[10px] font-mono uppercase text-zinc-400 tracking-wider">${s.label}</span>
               <span class="block text-sm md:text-base font-bold text-white font-mono mt-0.5">${s.value}</span>
+              <span class="block text-[10px] font-mono text-sky-400 mt-0.5">${s.unit}</span>
             </div>
           `).join('')}
         </div>
+
+        <!-- Technical Callout Highlights -->
+        ${project.technicalCallouts ? `
+          <div class="p-3 bg-zinc-900/40 border-l-2 border-amber-400 rounded-r text-xs font-mono space-y-1">
+            <span class="text-amber-400 font-bold block uppercase tracking-wider">Anotasi Struktur & Spesifikasi Utama:</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              ${project.technicalCallouts.map(c => `
+                <div class="p-2 bg-black/50 border border-zinc-800 rounded">
+                  <span class="text-sky-400 font-bold">[${c.id}] ${c.label}:</span>
+                  <p class="text-zinc-300 text-[11px] font-sans mt-0.5">${c.desc}</p>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        ` : ''}
 
         <!-- Process Tabs Header -->
         <div class="border-b border-zinc-800 flex flex-wrap gap-1">
@@ -601,45 +868,59 @@ function renderModalContent(project) {
         </div>
 
         <!-- Dynamic Content Pane -->
-        <div id="modal-tab-content" class="pt-2 animate-fade-in">
+        <div id="modal-tab-content" class="pt-2">
           ${renderTabBody(project, "overview")}
         </div>
       </div>
 
-      <!-- Right Sidebar: Recruiter Info, Role Attribution & Software Specs (4 Cols) -->
-      <div class="lg:col-span-4 p-6 md:p-8 bg-zinc-950/70 space-y-6 overflow-y-auto max-h-[80vh]">
-        <!-- Recruiter Quick Summary -->
+      <!-- Right Sidebar: Recruiter Info, Role Attribution & Software Specs (4 Kolom) -->
+      <div class="lg:col-span-4 p-6 md:p-8 bg-zinc-950/80 space-y-6 overflow-y-auto max-h-[82vh] font-mono">
+        
+        <!-- Recruiter Fast-Facts Callout -->
         <div class="border border-zinc-800 p-4 rounded bg-zinc-900/40">
           <h4 class="text-xs font-mono uppercase tracking-wider text-amber-400 mb-2 flex items-center">
             <span class="w-2 h-2 rounded-full bg-amber-400 mr-2 animate-pulse"></span>
             Recruiter Fast-Facts
           </h4>
-          <p class="text-xs text-zinc-300 leading-relaxed">
-            Proyek ini membuktikan kemampuan Steven Nata dalam menyelesaikan masalah spasial perkotaan yang kompleks, penerapan konsep placemaking dan desain biofilik, serta kecakapan teknis dokumentasi BIM hingga visualisasi tingkat lanjut.
+          <p class="text-xs text-zinc-300 leading-relaxed font-sans">
+            Membuktikan keahlian Steven Nata dalam menyelesaikan permasalahan spasial perkotaan yang nyata, integrasi placemaking dengan sains iklim terukur, serta kapabilitas langsung masuk tim produksi gambar BIM Revit.
           </p>
+        </div>
+
+        <!-- Technical Title Block Data (Kop Gambar Formal) -->
+        <div class="border border-zinc-800 bg-black/60 rounded p-3 text-xs space-y-2">
+          <div class="border-b border-zinc-800 pb-1 text-sky-400 font-bold uppercase text-[10px]">
+            DATA DOKUMEN PROYEK (KOP GAMBAR)
+          </div>
+          <div class="space-y-1 text-[11px]">
+            <div class="flex justify-between"><span class="text-zinc-500">NOMOR LEMBAR:</span><span class="text-white">${project.sheetNo}</span></div>
+            <div class="flex justify-between"><span class="text-zinc-500">SKALA:</span><span class="text-white">${project.scale} @ A1</span></div>
+            <div class="flex justify-between"><span class="text-zinc-500">LOKASI:</span><span class="text-white">${project.location.split(',')[0]}</span></div>
+            <div class="flex justify-between"><span class="text-zinc-500">TAHUN DIBUAT:</span><span class="text-white">${project.year}</span></div>
+          </div>
         </div>
 
         <!-- Authorship & Role -->
         <div class="space-y-3">
-          <h4 class="text-xs font-mono uppercase tracking-wider text-zinc-400">Atribusi & Peran Desain</h4>
-          <div class="p-3 bg-zinc-900/60 border border-zinc-800/80 rounded space-y-2">
+          <h4 class="text-xs uppercase tracking-wider text-zinc-400">Atribusi & Peran Desain</h4>
+          <div class="p-3 bg-zinc-900/60 border border-zinc-800/80 rounded space-y-2 text-xs">
             <div>
-              <span class="text-[11px] text-zinc-400 block font-mono">Peran Spesifik:</span>
-              <span class="text-sm font-semibold text-white">${project.role}</span>
+              <span class="text-[11px] text-zinc-500 block">Peran Spesifik:</span>
+              <span class="text-sm font-semibold text-white font-sans">${project.role}</span>
             </div>
             <div>
-              <span class="text-[11px] text-zinc-400 block font-mono">Dosen Pembimbing / Konteks:</span>
-              <span class="text-xs text-zinc-300">${project.advisor}</span>
+              <span class="text-[11px] text-zinc-500 block">Dosen Pembimbing / Konteks:</span>
+              <span class="text-xs text-zinc-300 font-sans">${project.advisor}</span>
             </div>
           </div>
         </div>
 
         <!-- Software Stack Used -->
         <div class="space-y-3">
-          <h4 class="text-xs font-mono uppercase tracking-wider text-zinc-400">Software & Tools Digunakan</h4>
+          <h4 class="text-xs uppercase tracking-wider text-zinc-400">Software & Tools Digunakan</h4>
           <div class="flex flex-wrap gap-2">
             ${project.software.map(tool => `
-              <span class="px-2.5 py-1 text-xs font-mono bg-zinc-900 text-sky-300 border border-zinc-800 rounded flex items-center">
+              <span class="px-2.5 py-1 text-xs bg-zinc-900 text-sky-300 border border-zinc-800 rounded flex items-center">
                 <span class="w-1.5 h-1.5 rounded-full bg-sky-400 mr-1.5"></span>
                 ${tool}
               </span>
@@ -649,20 +930,20 @@ function renderModalContent(project) {
 
         <!-- Direct Contact Action -->
         <div class="pt-4 border-t border-zinc-800 space-y-3">
-          <h4 class="text-xs font-mono uppercase tracking-wider text-zinc-400">Tertarik Mendiskusikan Proyek Ini?</h4>
+          <h4 class="text-xs uppercase tracking-wider text-zinc-400">Tertarik Mengundang Wawancara?</h4>
           <a 
-            href="https://wa.me/6281234567890?text=Halo%20Steven%20Nata,%20saya%20melihat%20portofolio%20arsitektur%20Anda%20proyek%20${encodeURIComponent(project.title)}%20dan%20tertarik%20mengundang%20interview."
+            href="https://www.linkedin.com/in/steven-nata-aa8a50403/"
             target="_blank"
             rel="noopener noreferrer"
-            class="w-full py-2.5 px-4 bg-sky-500 hover:bg-sky-400 text-black font-semibold text-xs font-mono uppercase tracking-wider rounded text-center block transition-colors"
+            class="w-full py-2.5 px-4 bg-sky-500 hover:bg-sky-400 text-black font-semibold text-xs uppercase tracking-wider rounded text-center block transition-colors"
           >
-            Chat WhatsApp Recruiter &rarr;
+            Kunjungi LinkedIn Steven &rarr;
           </a>
           <button 
             onclick="copyEmailToClipboard()"
-            class="w-full py-2 px-4 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-700 text-xs font-mono uppercase tracking-wider rounded transition-colors text-center block"
+            class="w-full py-2 px-4 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-700 text-xs uppercase tracking-wider rounded transition-colors text-center block"
           >
-            Salin Email Steven
+            Salin Alamat Email
           </button>
         </div>
 
@@ -671,7 +952,6 @@ function renderModalContent(project) {
   `;
 }
 
-// Render Tab Body Content
 function renderTabBody(project, tabKey) {
   const tab = project.tabs[tabKey];
   if (!tab) return "";
@@ -681,14 +961,14 @@ function renderTabBody(project, tabKey) {
       <div class="space-y-4">
         <h3 class="text-lg font-bold text-white font-display">${tab.heading}</h3>
         ${tab.paragraphs.map(p => `
-          <p class="text-zinc-300 text-sm leading-relaxed">${p}</p>
+          <p class="text-zinc-300 text-sm leading-relaxed font-sans">${p}</p>
         `).join('')}
 
         <div class="mt-6 p-4 bg-zinc-900/40 border-l-2 border-sky-400 rounded-r">
           <h4 class="text-xs font-mono uppercase tracking-wider text-sky-400 mb-2">Poin Inovasi Desain:</h4>
           <ul class="space-y-2">
             ${tab.highlights.map(h => `
-              <li class="text-xs text-zinc-300 flex items-start">
+              <li class="text-xs text-zinc-300 flex items-start font-sans">
                 <span class="text-sky-400 mr-2 font-mono">▹</span>
                 ${h}
               </li>
@@ -710,16 +990,19 @@ function renderTabBody(project, tabKey) {
       <div class="space-y-6 pt-2">
         ${tab.images.map((img, i) => `
           <figure class="border border-zinc-800 bg-zinc-900/50 rounded overflow-hidden">
-            <div class="relative max-h-[500px] overflow-hidden bg-black flex items-center justify-center">
+            <div class="relative max-h-[500px] overflow-hidden bg-black flex items-center justify-center crosshair-target group">
               <img 
                 src="${img.url}" 
                 alt="${img.caption}" 
-                class="w-full h-auto object-contain max-h-[500px]"
+                class="w-full h-auto object-contain max-h-[500px] transition-transform duration-300 group-hover:scale-[1.02]"
                 loading="lazy"
               />
+              <div class="absolute top-2 right-2 px-2 py-0.5 bg-black/80 font-mono text-[10px] text-sky-400 border border-zinc-700 pointer-events-none">
+                GRID ZOOM: 100%
+              </div>
             </div>
             <figcaption class="p-3 border-t border-zinc-800/80 bg-zinc-950 font-mono text-xs text-zinc-400 flex items-center justify-between">
-              <span><strong class="text-sky-400 mr-1.5">[FIG.0${i + 1}]</strong> ${img.caption}</span>
+              <span><strong class="text-sky-400 mr-1.5">[FIG.${String(i + 1).padStart(2, '0')}]</strong> ${img.caption}</span>
               <a href="${img.url}" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:underline text-[11px] whitespace-nowrap ml-2">Lihat Resolusi Penuh ↗</a>
             </figcaption>
           </figure>
@@ -729,7 +1012,6 @@ function renderTabBody(project, tabKey) {
   `;
 }
 
-// Modal Click Outside & Key Listeners
 function setupModalEvents() {
   const modal = document.getElementById("project-modal");
   if (!modal) return;
@@ -749,15 +1031,15 @@ function setupKeyboardShortcuts() {
   });
 }
 
-// Recruiter Quick Actions
+// ==========================================
+// 8. RECRUITER ACTIONS (COPY EMAIL & CV DOWNLOAD)
+// ==========================================
 function setupRecruiterActions() {
-  // Email Copy Button
   const copyBtn = document.getElementById("copy-email-btn");
   if (copyBtn) {
     copyBtn.addEventListener("click", copyEmailToClipboard);
   }
 
-  // Resume Download Button
   const downloadCvBtn = document.getElementById("download-cv-btn");
   if (downloadCvBtn) {
     downloadCvBtn.addEventListener("click", (e) => {
@@ -767,8 +1049,8 @@ function setupRecruiterActions() {
   }
 }
 
-// Clipboard Action with Feedback Toast
 window.copyEmailToClipboard = function() {
+  playCadSound("blip");
   const email = "stevennata.arch@gmail.com";
   navigator.clipboard.writeText(email).then(() => {
     showToast("Email berhasil disalin: " + email);
@@ -777,34 +1059,35 @@ window.copyEmailToClipboard = function() {
   });
 };
 
-// Simulation of Portfolio PDF Download
 function triggerPortfolioDownload() {
-  showToast("Mengunduh CV & Portfolio Steven Nata (UNTAR)...");
+  playCadSound("blip");
+  showToast("Mengunduh CV & Portfolio Steven Nata, S.Ars (UNTAR)...");
   
   const content = `=====================================================
-CURRICULUM VITAE & SELECTED WORKS
+CURRICULUM VITAE & SELECTED ARCHITECTURAL WORKS
 STEVEN NATA, S.Ars
 Jurusan Arsitektur, Fakultas Teknik, Universitas Tarumanagara (UNTAR)
 NIM: 315190059 | Lulusan 2024
 Jakarta, Indonesia | stevennata.arch@gmail.com | 315190059@stu.untar.ac.id
 LinkedIn: https://www.linkedin.com/in/steven-nata-aa8a50403/
+Portfolio Live: https://axelallisonofficial08.github.io/TestPort/
 =====================================================
 
 PROFIL SINGKAT:
 Sarjana Arsitektur dari Universitas Tarumanagara (UNTAR) dengan fokus perancangan
 pada Placemaking Kawasan Perkotaan, Desain Biofilik (Biophilic Design), 
-Building Information Modeling (BIM Revit), dan simulasi kenyamanan termal iklim tropis.
+Building Information Modeling (BIM Revit LOD 350), dan simulasi kenyamanan termal iklim tropis.
 Penulis artikel ilmiah arsitektur yang diterbitkan dalam Jurnal STUPA (2024).
 
 PENDIDIKAN:
-- S1 Arsitektur - Universitas Tarumanagara (2019 - 2024)
+- S1 Arsitektur - Universitas Tarumanagara, Jakarta (2019 - 2024)
   Gelar: Sarjana Arsitektur (S.Ars)
-  Fakultas Teknik, Program Studi Sarjana Arsitektur UNTAR, Jakarta
+  Fakultas Teknik, Program Studi Sarjana Arsitektur
   Judul Tugas Akhir:
   "GUNSAR HUB: Titik Temu Komunitas untuk Menghidupkan Kawasan Gunung Sahari Melalui Placemaking"
   Pembimbing: Agnatasya Listianti Mustaram, S.T., M.Sc.
 
-PUBLIKASI ILMIAH:
+PUBLIKASI ILMIAH RESMI:
 - "Penerapan Desain Biofilik Pada Perancangan Ruang Publik di Kawasan Gunung Sahari"
   Jurnal Sains, Teknologi, Urban, Perancangan, Arsitektur (STUPA), Vol. 6 No. 2, Oktober 2024.
 
@@ -823,9 +1106,8 @@ PROYEK UNGGULAN:
 
 Kontak Langsung:
 Email: stevennata.arch@gmail.com / 315190059@stu.untar.ac.id
-WhatsApp: +62 812-3456-7890
 LinkedIn: https://www.linkedin.com/in/steven-nata-aa8a50403/
-GitHub Portfolio: https://axelallisonofficial08.github.io/TestPort/
+GitHub: https://github.com/axelallisonofficial08/TestPort
 =====================================================`;
 
   const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
@@ -839,7 +1121,6 @@ GitHub Portfolio: https://axelallisonofficial08.github.io/TestPort/
   URL.revokeObjectURL(url);
 }
 
-// Toast Notification
 function showToast(message) {
   let toast = document.getElementById("toast-notification");
   if (!toast) {
@@ -850,13 +1131,12 @@ function showToast(message) {
   }
 
   toast.innerHTML = `
-    <svg class="w-4 h-4 mr-1 text-black" fill="currentColor" viewBox="0 0 20 20">
+    <svg class="w-4 h-4 mr-1 text-black flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
       <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
     </svg>
     <span>${message}</span>
   `;
 
-  // Animate in
   toast.classList.remove("translate-y-20", "opacity-0");
   toast.classList.add("translate-y-0", "opacity-100");
 
@@ -865,3 +1145,16 @@ function showToast(message) {
     toast.classList.add("translate-y-20", "opacity-0");
   }, 3500);
 }
+
+// ==========================================
+// 9. DOM INITIALIZATION
+// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
+  renderProjects("all");
+  setupFilterButtons();
+  setupModalEvents();
+  setupRecruiterActions();
+  setupKeyboardShortcuts();
+  setupCadHud();
+  setupBiophilicSimulator();
+});

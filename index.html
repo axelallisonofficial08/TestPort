@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Steven Nata, S.Ars | Architectural Portfolio — Universitas Tarumanagara (UNTAR)</title>
+  <title>Steven Nata, S.Ars | Architectural Portfolio & Technical Works — UNTAR</title>
   
-  <meta name="description" content="Portofolio arsitektur Steven Nata, S.Ars, lulusan Jurusan Arsitektur Universitas Tarumanagara (UNTAR). Spesialisasi Placemaking ruang publik, Desain Biofilik, dan BIM Revit. Penulis jurnal ilmiah STUPA 2024.">
+  <meta name="description" content="Portofolio arsitektur teknis Steven Nata, S.Ars, lulusan Jurusan Arsitektur Universitas Tarumanagara (UNTAR). Spesialisasi Placemaking ruang publik, Desain Biofilik, BIM Revit LOD 350. Penulis jurnal ilmiah STUPA 2024.">
   <meta name="keywords" content="Steven Nata, Steven Nata Arsitek, Gunsar Hub, Portofolio Arsitektur, Arsitektur UNTAR, Universitas Tarumanagara, Placemaking, Desain Biofilik, Jurnal STUPA, BIM Revit, Jakarta">
   <meta name="author" content="Steven Nata, S.Ars">
 
@@ -24,8 +24,8 @@
         extend: {
           colors: {
             blueprint: '#38bdf8',
-            obsidian: '#0a0c10',
-            carbon: '#12151d',
+            obsidian: '#080a0f',
+            carbon: '#0f131c',
             cadline: 'rgba(255, 255, 255, 0.12)'
           }
         }
@@ -38,27 +38,70 @@
 </head>
 <body class="bg-obsidian text-zinc-200 antialiased selection:bg-sky-500 selection:text-black">
 
+  <!-- Top Real-time CAD HUD Status Bar -->
+  <aside id="cad-hud" class="w-full bg-black/90 border-b border-zinc-800 text-[11px] px-4 py-1.5 flex flex-wrap items-center justify-between z-50 text-zinc-400 border-t-2 border-t-sky-500" aria-label="Status CAD Overlay">
+    <div class="flex items-center space-x-3">
+      <span class="flex items-center text-sky-400 font-bold">
+        <span class="w-2 h-2 rounded-full bg-sky-400 mr-1.5 animate-ping"></span>
+        CAD COORD:
+      </span>
+      <span id="cad-coords-live" class="text-zinc-300">
+        X: <span class="text-sky-400">+00.00m</span> &nbsp; Y: <span class="text-sky-400">+00.00m</span> &nbsp; AZM: <span class="text-amber-400">000.0°</span> &nbsp; SCALE: <span class="text-white">1:100</span>
+      </span>
+    </div>
+
+    <div class="flex items-center space-x-4 pointer-events-auto mt-1 sm:mt-0">
+      <span id="hud-mode-text" class="text-[10px] text-zinc-500 hidden md:inline">MODE: CAD OBSIDIAN SLATE</span>
+
+      <!-- Blueprint Theme Switcher -->
+      <button 
+        onclick="toggleBlueprintMode()"
+        class="px-2 py-0.5 border border-sky-500/40 hover:border-sky-400 text-sky-300 hover:text-white bg-sky-950/40 rounded transition-colors text-[10px] flex items-center space-x-1"
+        title="Beralih ke Tampilan Kertas Gambar Blueprint Cetak Cyan"
+      >
+        <svg class="w-3 h-3 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+        </svg>
+        <span>TOGGLE BLUEPRINT</span>
+      </button>
+
+      <!-- Web Audio Synthesizer Toggle -->
+      <button 
+        id="sound-toggle-btn"
+        onclick="toggleSound()"
+        class="px-2 py-0.5 border border-zinc-700 hover:border-zinc-500 text-zinc-300 bg-zinc-900 rounded transition-colors text-[10px] flex items-center"
+        title="Aktifkan Umpan Balik Suara CAD Snapping"
+      >
+        <span class="w-2 h-2 rounded-full bg-zinc-600 mr-1.5"></span>
+        AUDIO: OFF
+      </button>
+    </div>
+  </aside>
+
   <!-- Sticky Top Technical Navigation Bar -->
-  <header class="sticky top-0 z-40 bg-obsidian/90 backdrop-blur-md border-b border-zinc-800">
+  <header class="sticky top-0 z-40 bg-obsidian/95 backdrop-blur-md border-b border-zinc-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
       <!-- Logo & Academic Identity -->
-      <a href="#" class="flex items-center space-x-3 group">
-        <div class="w-8 h-8 border border-sky-400 bg-sky-950/40 flex items-center justify-center font-mono text-xs font-bold text-sky-400 group-hover:bg-sky-500 group-hover:text-black transition-colors">
+      <a href="#" class="flex items-center space-x-3 group" onmouseenter="playCadSound('tick')">
+        <div class="w-9 h-9 border border-sky-400 bg-sky-950/60 flex items-center justify-center font-mono text-xs font-bold text-sky-400 group-hover:bg-sky-500 group-hover:text-black transition-colors relative corner-marks">
           SN
         </div>
         <div>
-          <span class="font-display font-bold text-white text-base tracking-tight block">STEVEN NATA</span>
-          <span class="font-mono text-[10px] text-zinc-400 uppercase tracking-widest block -mt-0.5">ARSITEKTUR UNTAR • JAKARTA</span>
+          <span class="font-display font-bold text-white text-base tracking-tight block">STEVEN NATA, S.Ars</span>
+          <span class="font-mono text-[10px] text-zinc-400 uppercase tracking-widest block -mt-0.5">ARSITEKTUR UNTAR • PLACEMAKING & BIM</span>
         </div>
       </a>
 
       <!-- Navigation Links -->
       <nav class="hidden md:flex items-center space-x-6 text-xs font-mono tracking-wider uppercase text-zinc-400" aria-label="Navigasi Utama">
-        <a href="#proyek" class="hover:text-sky-400 transition-colors">01. Proyek</a>
-        <a href="#kompetensi" class="hover:text-sky-400 transition-colors">02. Kompetensi Software</a>
-        <a href="#tentang" class="hover:text-sky-400 transition-colors">03. Profil UNTAR</a>
-        <a href="#kontak" class="hover:text-sky-400 transition-colors">04. Kontak</a>
+        <a href="#proyek" class="hover:text-sky-400 transition-colors" onmouseenter="playCadSound('tick')">01. Proyek CAD/BIM</a>
+        <a href="#simulator" class="hover:text-amber-400 transition-colors flex items-center" onmouseenter="playCadSound('tick')">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5 animate-pulse"></span>
+          02. Simulator Biofilik
+        </a>
+        <a href="#kompetensi" class="hover:text-sky-400 transition-colors" onmouseenter="playCadSound('tick')">03. Software Matrix</a>
+        <a href="#tentang" class="hover:text-sky-400 transition-colors" onmouseenter="playCadSound('tick')">04. Profil & Riset</a>
       </nav>
 
       <!-- Recruiter Immediate Actions -->
@@ -67,8 +110,9 @@
           href="https://www.linkedin.com/in/steven-nata-aa8a50403/"
           target="_blank"
           rel="noopener noreferrer"
-          class="hidden sm:inline-flex items-center px-3 py-1.5 border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 text-sky-400 font-mono text-xs rounded transition-colors"
+          class="hidden sm:inline-flex items-center px-3 py-1.5 border border-sky-500/50 bg-sky-950/50 hover:bg-sky-900/60 text-sky-300 font-mono text-xs rounded transition-colors"
           title="Buka Profil LinkedIn Steven Nata"
+          onmouseenter="playCadSound('tick')"
         >
           <svg class="w-3.5 h-3.5 mr-1.5 fill-current" viewBox="0 0 24 24">
             <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
@@ -81,6 +125,7 @@
           type="button"
           class="hidden sm:inline-flex items-center px-3 py-1.5 border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-mono text-xs rounded transition-colors"
           title="Salin Email Steven Nata ke Clipboard"
+          onmouseenter="playCadSound('tick')"
         >
           <svg class="w-3.5 h-3.5 mr-1.5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
@@ -92,6 +137,7 @@
           id="download-cv-btn"
           href="#"
           class="inline-flex items-center px-3.5 py-1.5 bg-sky-500 hover:bg-sky-400 text-black font-semibold font-mono text-xs rounded transition-colors"
+          onmouseenter="playCadSound('tick')"
         >
           <svg class="w-3.5 h-3.5 mr-1.5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
@@ -105,26 +151,28 @@
 
   <main>
     <!-- Hero Section: Blueprint & Brutalist Introduction -->
-    <section class="relative bg-blueprint-grid bg-blueprint-major border-b border-zinc-800 py-16 md:py-24 overflow-hidden">
+    <section class="relative bg-cad-grid bg-cad-major border-b border-zinc-800 py-16 md:py-24 overflow-hidden">
       <!-- Ambient light effect -->
       <div class="absolute top-0 right-1/4 w-96 h-96 bg-sky-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <!-- Recruiter Status Pill -->
-        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-zinc-900/90 border border-zinc-800 rounded-full font-mono text-xs text-zinc-300 mb-6">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1 bg-zinc-900/90 border border-zinc-800 rounded-full font-mono text-xs text-zinc-300 mb-6">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
           <span class="w-2 h-2 rounded-full bg-emerald-400 -ml-4"></span>
-          <span>Open for Opportunities: Junior Architect / Project Architect / BIM Modeler</span>
+          <span>Open for Hiring: Junior Architect / Project Architect / BIM Modeler</span>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           <div class="lg:col-span-8 space-y-6">
             <div class="space-y-2">
-              <span class="font-mono text-xs text-sky-400 uppercase tracking-widest block">// CURRICULUM VITAE & SELECTED WORKS (2019-2024)</span>
+              <span class="font-mono text-xs text-sky-400 uppercase tracking-widest block">
+                // ARCHITECTURAL DOSSIER & SELECTED PORTFOLIO [UNTAR 2019-2024]
+              </span>
               <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.05]">
-                STEVEN NATA, <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-amber-300">S.Ars</span>
+                STEVEN NATA, <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-sky-300 to-amber-300">S.Ars</span>
               </h1>
               <p class="font-mono text-base md:text-lg text-zinc-400">
                 Sarjana Arsitektur — Universitas Tarumanagara (UNTAR), Jakarta (NIM: 315190059)
@@ -134,30 +182,30 @@
             <p class="text-zinc-300 text-base md:text-lg leading-relaxed max-w-2xl font-light">
               Mewujudkan arsitektur publik yang berpusat pada komunitas melalui pendekatan <strong class="text-white font-medium">Placemaking</strong>, 
               efisiensi iklim mikro dengan <strong class="text-white font-medium">Desain Biofilik (Biophilic Design)</strong>, serta ketelitian 
-              <strong class="text-white font-medium">Building Information Modeling (BIM Revit)</strong> untuk revitalisasi perkotaan Jakarta.
+              <strong class="text-white font-medium">Building Information Modeling (BIM Revit)</strong> untuk menjawab degradasi kawasan komersial perkotaan Jakarta.
             </p>
 
             <!-- Key Recruiter Metrics & Highlights -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-              <div class="p-3 bg-zinc-900/60 border border-zinc-800 rounded">
+              <div class="p-3 bg-zinc-900/70 border border-zinc-800 rounded relative corner-marks">
                 <span class="font-mono text-[10px] text-zinc-400 uppercase block">Publikasi Riset</span>
                 <span class="font-mono font-bold text-white text-lg block text-sky-400">Jurnal STUPA</span>
-                <span class="text-[11px] text-zinc-400">Vol. 6 No. 2 (2024)</span>
+                <span class="text-[11px] text-zinc-400 font-mono">Vol. 6 No. 2 (2024)</span>
               </div>
-              <div class="p-3 bg-zinc-900/60 border border-zinc-800 rounded">
-                <span class="font-mono text-[10px] text-zinc-400 uppercase block">Fokus Skripsi</span>
-                <span class="font-mono font-bold text-white text-lg block text-amber-400">Placemaking</span>
-                <span class="text-[11px] text-zinc-400">Kawasan Gunung Sahari</span>
+              <div class="p-3 bg-zinc-900/70 border border-zinc-800 rounded relative corner-marks">
+                <span class="font-mono text-[10px] text-zinc-400 uppercase block">Skripsi Unggulan</span>
+                <span class="font-mono font-bold text-white text-lg block text-amber-400">GUNSAR HUB</span>
+                <span class="text-[11px] text-zinc-400 font-mono">Placemaking Jakarta</span>
               </div>
-              <div class="p-3 bg-zinc-900/60 border border-zinc-800 rounded">
+              <div class="p-3 bg-zinc-900/70 border border-zinc-800 rounded relative corner-marks">
                 <span class="font-mono text-[10px] text-zinc-400 uppercase block">Spesialisasi BIM</span>
                 <span class="font-mono font-bold text-white text-lg block text-white">LOD 350</span>
-                <span class="text-[11px] text-zinc-400">Revit + Dynamo Script</span>
+                <span class="text-[11px] text-zinc-400 font-mono">Revit + Dynamo Script</span>
               </div>
-              <div class="p-3 bg-zinc-900/60 border border-zinc-800 rounded">
+              <div class="p-3 bg-zinc-900/70 border border-zinc-800 rounded relative corner-marks">
                 <span class="font-mono text-[10px] text-zinc-400 uppercase block">Status Ketersediaan</span>
                 <span class="font-mono font-bold text-white text-lg block text-emerald-400">Siap Kerja</span>
-                <span class="text-[11px] text-zinc-400">Jakarta & Sekitarnya</span>
+                <span class="text-[11px] text-zinc-400 font-mono">Jakarta & Sekitarnya</span>
               </div>
             </div>
 
@@ -166,61 +214,63 @@
               <a 
                 href="#proyek" 
                 class="px-6 py-3 bg-white hover:bg-zinc-200 text-black font-semibold font-mono text-xs tracking-wider uppercase rounded transition-colors inline-flex items-center"
+                onmouseenter="playCadSound('tick')"
               >
-                Lihat Karya & Riset &darr;
+                Eksplorasi 5 Karya CAD/BIM &darr;
               </a>
               <a 
-                href="https://www.linkedin.com/in/steven-nata-aa8a50403/"
-                target="_blank"
-                rel="noopener noreferrer" 
-                class="px-6 py-3 bg-zinc-900 hover:bg-zinc-800 text-sky-400 border border-zinc-700 font-mono text-xs tracking-wider uppercase rounded transition-colors inline-flex items-center"
+                href="#simulator" 
+                class="px-6 py-3 bg-zinc-900 hover:bg-zinc-800 text-amber-400 border border-amber-500/50 font-mono text-xs tracking-wider uppercase rounded transition-colors inline-flex items-center"
+                onmouseenter="playCadSound('tick')"
               >
-                Kunjungi LinkedIn Steven &rarr;
+                Coba Simulator Biofilik &rarr;
               </a>
             </div>
 
           </div>
 
-          <!-- Hero Right: Architectural Blueprint Technical Card -->
+          <!-- Hero Right: Authentic Architectural Drawing Sheet & Title Block -->
           <div class="lg:col-span-4">
-            <div class="border border-zinc-700 bg-zinc-950/90 p-5 rounded-lg shadow-2xl relative corner-marks">
+            <div class="title-block rounded p-5 shadow-2xl relative corner-marks">
+              
               <!-- Technical Title Bar -->
-              <div class="border-b border-zinc-800 pb-3 mb-4 flex items-center justify-between text-zinc-400 font-mono text-xs">
+              <div class="border-b border-cad pb-3 mb-4 flex items-center justify-between text-zinc-400 font-mono text-xs">
                 <span>[DRAWING SHEET NO. 01/A]</span>
-                <span class="text-sky-400">SCALE: 1:100</span>
+                <span class="text-sky-400">SCALE: 1:100 @ A1</span>
               </div>
 
               <!-- Profile Avatar / Portrait placeholder with architectural blueprint overlay -->
-              <div class="relative w-full aspect-square bg-zinc-900 border border-zinc-800 rounded overflow-hidden mb-4 group">
+              <div class="relative w-full aspect-square bg-black border border-cad rounded overflow-hidden mb-4 group crosshair-target">
                 <img 
                   src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80" 
                   alt="Potret Steven Nata, Sarjana Arsitektur UNTAR"
                   class="w-full h-full object-cover filter grayscale contrast-125 group-hover:scale-105 transition-transform duration-500"
                 />
-                <div class="absolute inset-0 bg-sky-900/20 mix-blend-color"></div>
-                <div class="absolute bottom-2 left-2 right-2 p-2 bg-black/80 backdrop-blur font-mono text-[11px] text-zinc-300 border border-zinc-800">
+                <div class="absolute inset-0 bg-sky-900/20 mix-blend-color pointer-events-none"></div>
+                <div class="scanline"></div>
+                <div class="absolute bottom-2 left-2 right-2 p-2.5 bg-black/90 backdrop-blur font-mono text-[11px] text-zinc-300 border border-zinc-800">
                   <div class="text-sky-400 font-bold">STEVEN NATA, S.Ars</div>
                   <div class="text-zinc-400 text-[10px]">Alumni Arsitektur UNTAR (NIM: 315190059)</div>
                 </div>
               </div>
 
-              <!-- Recruiter Fast Factsheet -->
-              <div class="space-y-2 text-xs font-mono">
-                <div class="flex justify-between py-1 border-b border-zinc-900">
-                  <span class="text-zinc-400">Institusi:</span>
-                  <span class="text-white font-medium">Universitas Tarumanagara</span>
+              <!-- Authentic Kop Gambar Technical Cells -->
+              <div class="grid grid-cols-2 border-t border-l border-zinc-800 text-[11px] font-mono">
+                <div class="title-block-cell">
+                  <span class="text-zinc-500 text-[9px] block">INSTITUSI</span>
+                  <span class="text-white font-medium">Univ. Tarumanagara</span>
                 </div>
-                <div class="flex justify-between py-1 border-b border-zinc-900">
-                  <span class="text-zinc-400">Jurusan:</span>
-                  <span class="text-white font-medium">Sarjana Arsitektur (S.Ars)</span>
+                <div class="title-block-cell">
+                  <span class="text-zinc-500 text-[9px] block">PROGRAM STUDI</span>
+                  <span class="text-white font-medium">S1 Arsitektur</span>
                 </div>
-                <div class="flex justify-between py-1 border-b border-zinc-900">
-                  <span class="text-zinc-400">Domisili:</span>
-                  <span class="text-white font-medium">Jakarta, Indonesia</span>
+                <div class="title-block-cell">
+                  <span class="text-zinc-500 text-[9px] block">DOSEN PEMBIMBING</span>
+                  <span class="text-sky-400 text-[10px]">Agnatasya L.M., M.Sc.</span>
                 </div>
-                <div class="flex justify-between py-1">
-                  <span class="text-zinc-400">LinkedIn:</span>
-                  <a href="https://www.linkedin.com/in/steven-nata-aa8a50403/" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:underline">/in/steven-nata-aa8a50403 ↗</a>
+                <div class="title-block-cell">
+                  <span class="text-zinc-500 text-[9px] block">STATUS RISET</span>
+                  <span class="text-emerald-400 text-[10px]">Jurnal STUPA (2024)</span>
                 </div>
               </div>
 
@@ -238,12 +288,12 @@
       <!-- Section Header & Filter Navigation -->
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
         <div>
-          <span class="font-mono text-xs text-sky-400 uppercase tracking-widest block mb-1">// PORTOFOLIO TERPILIH</span>
+          <span class="font-mono text-xs text-sky-400 uppercase tracking-widest block mb-1">// DOKUMENTASI GAMBAR KERJA & STUDI KASUS</span>
           <h2 class="font-display text-3xl sm:text-5xl font-bold text-white tracking-tight">
             Koleksi Karya Arsitektur
           </h2>
           <p class="text-zinc-400 text-sm max-w-xl mt-2 font-mono">
-            Klik proyek untuk membuka studi kasus interaktif: diagram konsep placemaking, gambar kerja CAD/BIM, denah potongan, hingga visualisasi 3D.
+            Setiap lembar proyek dilengkapi parameter teknis, gambar denah & potongan LOD 350, diagram transformasi massa, serta studi integrasi biofilik.
           </p>
         </div>
 
@@ -291,6 +341,163 @@
       <!-- Project Cards Grid (Populated dynamically by script.js) -->
       <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Rendered via script.js -->
+      </div>
+
+    </section>
+
+    <!-- NEW INTERACTIVE WIDGET: Biophilic & Sun-Path Microclimate Simulator (GUNSAR HUB) -->
+    <section id="simulator" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-zinc-800 bg-zinc-950/40 relative overflow-hidden">
+      
+      <div class="mb-10">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-950/80 border border-amber-600/80 text-amber-300 rounded font-mono text-xs uppercase mb-3">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+          <span>Interactive Computational Widget</span>
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold text-white tracking-tight">
+          Simulator Mikroklimat & Lintasan Matahari (GUNSAR HUB)
+        </h2>
+        <p class="text-zinc-400 text-sm max-w-2xl mt-2 font-mono">
+          Uji langsung metodologi skripsi Steven Nata: Geser jam matahari, kerapatan vegetasi, dan bukaan ventilasi untuk mengamati kalkulasi reduksi beban panas perkotaan secara real-time.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-black/70 border border-zinc-800 p-6 md:p-8 rounded-lg corner-marks">
+        
+        <!-- Controls Column (5 Cols) -->
+        <div class="lg:col-span-5 space-y-6 font-mono text-xs">
+          
+          <!-- Slider 1: Hour of Day -->
+          <div class="space-y-2 p-3 bg-zinc-900/60 border border-zinc-800 rounded">
+            <div class="flex justify-between items-center">
+              <span class="text-zinc-300 font-bold">Waktu Matahari Jakarta:</span>
+              <span id="sim-sun-label" class="text-amber-400 font-bold bg-amber-950/80 px-2 py-0.5 rounded border border-amber-800">12:00 WIB</span>
+            </div>
+            <input 
+              id="sim-sun-hour" 
+              type="range" 
+              min="8" 
+              max="17" 
+              step="0.5" 
+              value="12" 
+              class="w-full"
+              aria-label="Pilih Jam Matahari"
+            />
+            <div class="flex justify-between text-[10px] text-zinc-500">
+              <span>08:00 (Pagi)</span>
+              <span>12:00 (Puncak Panas)</span>
+              <span>17:00 (Sore)</span>
+            </div>
+          </div>
+
+          <!-- Slider 2: Canopy Density -->
+          <div class="space-y-2 p-3 bg-zinc-900/60 border border-zinc-800 rounded">
+            <div class="flex justify-between items-center">
+              <span class="text-zinc-300 font-bold">Kerapatan Kanopi Biofilik:</span>
+              <span id="sim-canopy-label" class="text-emerald-400 font-bold bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800">75%</span>
+            </div>
+            <input 
+              id="sim-canopy-density" 
+              type="range" 
+              min="0" 
+              max="100" 
+              step="5" 
+              value="75" 
+              class="w-full"
+              aria-label="Pilih Kerapatan Kanopi Vegetasi"
+            />
+            <div class="flex justify-between text-[10px] text-zinc-500">
+              <span>0% (Beton Polos)</span>
+              <span>50% (Peneduh Parsial)</span>
+              <span>100% (Hutan Mikro)</span>
+            </div>
+          </div>
+
+          <!-- Slider 3: Wind Aperture -->
+          <div class="space-y-2 p-3 bg-zinc-900/60 border border-zinc-800 rounded">
+            <div class="flex justify-between items-center">
+              <span class="text-zinc-300 font-bold">Kecepatan Angin Koridor Alami:</span>
+              <span id="sim-wind-label" class="text-sky-400 font-bold bg-sky-950/80 px-2 py-0.5 rounded border border-sky-800">2.5 m/s</span>
+            </div>
+            <input 
+              id="sim-wind-speed" 
+              type="range" 
+              min="0.5" 
+              max="5.0" 
+              step="0.1" 
+              value="2.5" 
+              class="w-full"
+              aria-label="Pilih Kecepatan Angin"
+            />
+            <div class="flex justify-between text-[10px] text-zinc-500">
+              <span>0.5 m/s (Tenang)</span>
+              <span>2.5 m/s (Nyaman)</span>
+              <span>5.0 m/s (Ventilasi Kuat)</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Simulation Visualization Column (7 Cols) -->
+        <div class="lg:col-span-7 space-y-4">
+          
+          <!-- Reactive SVG Diagram -->
+          <div class="relative bg-zinc-950 border border-zinc-800 rounded p-4 h-64 flex flex-col justify-between overflow-hidden">
+            <div class="flex justify-between items-center text-[10px] font-mono text-zinc-500 z-10">
+              <span>DIAGRAM ELEVASI LINTASAN MATAHARI & BAYANGAN BANGUNAN</span>
+              <span class="text-sky-400">GUNSAR HUB SECTION 1:500</span>
+            </div>
+
+            <svg viewBox="0 0 360 180" class="w-full h-full">
+              <!-- Sky Arc -->
+              <path d="M 40 160 A 140 140 0 0 1 320 160" fill="none" stroke="rgba(255,255,255,0.15)" stroke-dasharray="4 4" stroke-width="1.5" />
+              
+              <!-- Ground Line -->
+              <line x1="10" y1="160" x2="350" y2="160" stroke="#38bdf8" stroke-width="1.5" />
+              
+              <!-- Building Massing (GUNSAR HUB Porous Mass) -->
+              <rect x="140" y="90" width="80" height="70" fill="#1e293b" stroke="#64748b" stroke-width="1.5" />
+              <!-- Porous Cavity -->
+              <rect x="165" y="115" width="30" height="45" fill="#090d16" stroke="#38bdf8" stroke-dasharray="2 2" stroke-width="1" />
+              
+              <!-- Canopy Layer (Biofilik) -->
+              <line id="svg-canopy-layer" x1="130" y1="85" x2="230" y2="85" stroke="#34d399" stroke-width="6" stroke-linecap="round" opacity="0.75" />
+              
+              <!-- Shadow Polygon -->
+              <polygon id="svg-shadow" points="140,160 220,160 260,160" fill="#000000" opacity="0.5" />
+
+              <!-- Interactive Sun Orb -->
+              <circle id="svg-sun-orb" cx="180" cy="40" r="12" fill="#fbbf24" filter="drop-shadow(0 0 8px #fbbf24)" />
+            </svg>
+
+            <!-- Real-time Readout Dashboard -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-zinc-900 font-mono text-[11px] z-10">
+              <div class="bg-black/60 p-2 rounded border border-zinc-800">
+                <span class="text-zinc-500 block text-[9px]">SUHU URBAN ASLI</span>
+                <span id="sim-res-urban" class="text-red-400 font-bold text-sm">34.2°C</span>
+              </div>
+              <div class="bg-black/60 p-2 rounded border border-zinc-800">
+                <span class="text-zinc-500 block text-[9px]">SUHU BIOFILIK</span>
+                <span id="sim-res-micro" class="text-emerald-400 font-bold text-sm">29.5°C</span>
+              </div>
+              <div class="bg-black/60 p-2 rounded border border-zinc-800">
+                <span class="text-zinc-500 block text-[9px]">DELTA PENURUNAN</span>
+                <span id="sim-res-delta" class="text-sky-400 font-bold text-sm">-4.7°C</span>
+              </div>
+              <div class="bg-black/60 p-2 rounded border border-zinc-800">
+                <span class="text-zinc-500 block text-[9px]">INSOLASI SURYA</span>
+                <span id="sim-res-lux" class="text-amber-400 font-bold text-sm">260 W/m²</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="p-3 bg-zinc-900/60 border border-zinc-800 rounded flex items-center justify-between font-mono text-xs">
+            <span class="text-zinc-400">Evaluasi Kenyamanan Termal Manusia:</span>
+            <span id="sim-res-status" class="text-emerald-400 font-bold">Zona Nyaman Termal Tropis (ASHRAE 55)</span>
+          </div>
+
+        </div>
+
       </div>
 
     </section>
@@ -417,10 +624,10 @@
 
           <div class="p-4 bg-zinc-900/60 border-l-2 border-sky-400 rounded-r space-y-2">
             <h4 class="font-mono text-xs uppercase tracking-wider text-sky-400 font-bold">Pencapaian & Jejak Akademis:</h4>
-            <ul class="space-y-1.5 text-xs text-zinc-300">
+            <ul class="space-y-1.5 text-xs text-zinc-300 font-mono">
               <li>• Penulis Artikel Jurnal STUPA (2024): <em>"Penerapan Desain Biofilik Pada Perancangan Ruang Publik di Kawasan Gunung Sahari"</em>.</li>
               <li>• Lulus Sarjana Arsitektur (S.Ars) dari Fakultas Teknik Universitas Tarumanagara, Jakarta.</li>
-              <li>• Pengalaman dalam perancangan placemaking ruang publik, permodelan BIM Revit, dan simulasi iklim mikro.</li>
+              <li>• Pengalaman dalam perancangan placemaking ruang publik, permodelan BIM Revit LOD 350, dan simulasi iklim mikro.</li>
             </ul>
           </div>
         </div>
@@ -460,7 +667,7 @@
 
     <!-- Recruiter Contact & CTA Section -->
     <section id="kontak" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="border border-sky-500/40 bg-zinc-950 p-8 md:p-12 rounded-lg relative overflow-hidden bg-blueprint-grid">
+      <div class="border border-sky-500/40 bg-zinc-950 p-8 md:p-12 rounded-lg relative overflow-hidden bg-cad-grid">
         
         <div class="max-w-3xl space-y-6">
           <div class="inline-block px-3 py-1 bg-sky-950 text-sky-400 border border-sky-700/80 rounded font-mono text-xs uppercase tracking-wider">
@@ -481,6 +688,7 @@
               target="_blank"
               rel="noopener noreferrer"
               class="px-6 py-3.5 bg-sky-500 hover:bg-sky-400 text-black font-semibold font-mono text-xs tracking-wider uppercase rounded transition-colors inline-flex items-center"
+              onmouseenter="playCadSound('tick')"
             >
               <svg class="w-4 h-4 mr-2 fill-current" viewBox="0 0 24 24">
                 <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
@@ -491,6 +699,7 @@
             <button 
               onclick="copyEmailToClipboard()"
               class="px-6 py-3.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-700 font-mono text-xs tracking-wider uppercase rounded transition-colors inline-flex items-center"
+              onmouseenter="playCadSound('tick')"
             >
               <svg class="w-4 h-4 mr-2 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>

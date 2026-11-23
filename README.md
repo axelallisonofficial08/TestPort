@@ -1,38 +1,40 @@
 # Portofolio Arsitektur — Steven Nata, S.Ars (Universitas Tarumanagara)
 
-Website portofolio arsitektur interaktif berestetika **Dark Blueprint & Brutalist** yang dirancang khusus untuk menarik perhatian *hiring manager*, *principal architect*, dan *recruiter* biro arsitektur terkemuka dalam **2-3 menit pertama review**.
+Website portofolio arsitektur interaktif berestetika **Dark Blueprint & Brutalist CAD** yang dirancang khusus untuk memukau *hiring manager*, *principal architect*, dan *recruiter* biro arsitektur terkemuka dalam **2-3 menit pertama review**.
 
-Dibuat menggunakan arsitektur **Clean Static (HTML5 + Modern Tailwind CSS + Vanilla JS)** dan dideploy via **GitHub Pages**.
-
----
-
-## 🏛️ Profil & Fitur Utama
-
-- **Nama**: Steven Nata, S.Ars (NIM: 315190059)
-- **Almamater**: Program Studi Sarjana Arsitektur, Fakultas Teknik, Universitas Tarumanagara (UNTAR), Jakarta
-- **Tahun Kelulusan**: 2024
-- **LinkedIn**: [linkedin.com/in/steven-nata-aa8a50403/](https://www.linkedin.com/in/steven-nata-aa8a50403/)
-- **Publikasi Ilmiah**: Jurnal Sains, Teknologi, Urban, Perancangan, Arsitektur (STUPA), Vol. 6 No. 2, Oktober 2024 — *"Penerapan Desain Biofilik Pada Perancangan Ruang Publik di Kawasan Gunung Sahari"*
-
-### 5 Kurasi Tipologi Proyek Representatif:
-1. **GUNSAR HUB (Tugas Akhir UNTAR & Publikasi Jurnal STUPA)**: Revitalisasi kawasan Gunung Sahari melalui *Placemaking* dan *Desain Biofilik* untuk mereduksi *urban heat island* dan menghidupkan ruang publik perkotaan.
-2. **Rumah Lentera Tropis (Hunian Residensial)**: Eksplorasi pendinginan pasif (*stack effect*), dinding bata tanah liat berongga (*second skin*), dan taman *courtyard*.
-3. **Ruang Temu Komunal Pasar Baru (Juara 2 Sayembara Nasional IAI)**: *Adaptive reuse* kawasan cagar budaya kolonial dengan kanopi parametrik modular ramah pejalan kaki.
-4. **Verdant Spire & Collaborative Hub (Komersial & Mixed-Use)**: Menara perkantoran 28 lantai dengan teras taman biophilic bersertifikasi *Greenship Platinum*.
-5. **The Biomorphic Timber Pavilion (Riset Parametrik & Fabrikasi)**: Struktur cangkang kayu lengkung ganda (*gridshell*) dengan algoritma Grasshopper dan sambungan *finger-joint* mesin CNC.
+Dibuat menggunakan arsitektur **Clean Static (HTML5 + Modern Tailwind CSS + Vanilla JS)** dan di-hosting via **GitHub Pages**.
 
 ---
 
-## 🚀 Deployment GitHub Pages
+## 🏛️ Fitur Teknis & Interaktif Khusus Arsitek
 
-Portofolio ini aktif di:
+1. **Live CAD HUD Coordinates & Inversion Mode**:
+   - Menampilkan koordinat kursor arsitektur secara real-time (`X`, `Y`, `AZIMUTH`, `SCALE 1:100`).
+   - Tombol **TOGGLE BLUEPRINT**: Mengubah tampilan seketika menjadi kertas cetak biru *Cyan Drafting Blueprint* khas studio arsitektur.
+   - **Web Audio FX Synthesizer**: Menghasilkan umpan balik suara klik dan *snap* mekanik presisi tinggi tanpa memerlukan file audio eksternal.
+
+2. **Simulator Mikroklimat & Lintasan Matahari Interaktif (GUNSAR HUB)**:
+   - Recruiter dapat menggeser parameter waktu matahari Jakarta (08:00 - 17:00 WIB), kerapatan kanopi biofilik (0% - 100%), dan kecepatan ventilasi alami.
+   - Diagram SVG reaktif yang menampilkan pergerakan orbit matahari, kalkulasi panjang bayangan bangunan berpori, dan tabel reduksi beban panas perkotaan (*Urban Heat Island Mitigation*).
+
+3. **Format Kop Gambar Formal (Architectural Title Block)**:
+   - Setiap kartu proyek dan modal detail dilengkapi lembar nomor (`SHEET A-101`), skala perancangan (`1:200 @ A1`), garis dimensi CAD, serta anotasi struktural presisi (`C1 Core Shear Wall`, `C2 Biophilic Canopy`, `C3 Evaporative Pool`).
+
+4. **Karya Nyata Tugas Akhir & Publikasi Ilmiah**:
+   - **GUNSAR HUB**: *Community Placemaking & Biophilic Urban Center in Gunung Sahari*, diterbitkan di **Jurnal STUPA (Sains, Teknologi, Urban, Perancangan, Arsitektur)**, Vol. 6 No. 2, Oktober 2024, bersama dosen pembimbing Agnatasya Listianti Mustaram, S.T., M.Sc.
+
+---
+
+## 🚀 Status Live Deployment
+
+Portofolio aktif di:
 **[https://axelallisonofficial08.github.io/TestPort/](https://axelallisonofficial08.github.io/TestPort/)**
 
 ### Struktur File:
 ```text
 proj3/
-├── index.html       # Struktur semantik HTML5, hero section, grid proyek & modal dialog
-├── styles.css       # Blueprint CAD grid pattern, crosshair corner marks, scrollbar & font
-├── script.js        # Dataset proyek arsitektur, logic filter, switcher tab modal & toast
-└── README.md        # Dokumentasi portofolio
+├── index.html       # Struktur semantik HTML5, CAD HUD, simulator biofilik & modal
+├── styles.css       # Grid CAD, corner marks, tema cyan blueprint & animasi scanline
+├── script.js        # Engine simulator mikroklimat, Web Audio FX, koordinat HUD & data proyek
+└── README.md        # Dokumentasi fitur portofolio
 ```

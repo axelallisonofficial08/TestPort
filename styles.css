@@ -1,15 +1,35 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 :root {
   --font-sans: 'Plus Jakarta Sans', sans-serif;
   --font-display: 'Space Grotesk', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  --bg-primary: #0a0c10;
-  --bg-secondary: #12151d;
-  --border-technical: rgba(255, 255, 255, 0.12);
-  --blueprint-line: rgba(56, 189, 248, 0.07);
+  
+  --bg-primary: #080a0f;
+  --bg-secondary: #0f131c;
+  --bg-tertiary: #161b26;
+  
+  --blueprint-ink: #38bdf8;
+  --blueprint-grid-sub: rgba(56, 189, 248, 0.05);
+  --blueprint-grid-major: rgba(56, 189, 248, 0.12);
+  --border-cad: rgba(255, 255, 255, 0.14);
+  
   --accent-cyan: #38bdf8;
-  --accent-amber: #f59e0b;
+  --accent-amber: #fbbf24;
+  --accent-emerald: #34d399;
+  --accent-red: #f87171;
+}
+
+/* Blueprint Mode Toggle Overrides */
+body.blueprint-mode {
+  --bg-primary: #031526;
+  --bg-secondary: #06223d;
+  --bg-tertiary: #0a2f54;
+  --blueprint-ink: #7dd3fc;
+  --blueprint-grid-sub: rgba(125, 211, 252, 0.1);
+  --blueprint-grid-major: rgba(125, 211, 252, 0.25);
+  --border-cad: rgba(125, 211, 252, 0.35);
+  color: #e0f2fe;
 }
 
 body {
@@ -17,32 +37,28 @@ body {
   background-color: var(--bg-primary);
   color: #e2e8f0;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.font-display {
-  font-family: var(--font-display);
-}
+.font-display { font-family: var(--font-display); }
+.font-mono { font-family: var(--font-mono); }
 
-.font-mono {
-  font-family: var(--font-mono);
-}
-
-/* Subtle Blueprint Grid Pattern */
-.bg-blueprint-grid {
+/* Technical CAD Grid Pattern */
+.bg-cad-grid {
   background-image: 
-    linear-gradient(to right, var(--blueprint-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--blueprint-line) 1px, transparent 1px);
-  background-size: 32px 32px;
+    linear-gradient(to right, var(--blueprint-grid-sub) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--blueprint-grid-sub) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
-.bg-blueprint-major {
+.bg-cad-major {
   background-image: 
-    linear-gradient(to right, rgba(56, 189, 248, 0.15) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(56, 189, 248, 0.15) 1px, transparent 1px);
-  background-size: 160px 160px;
+    linear-gradient(to right, var(--blueprint-grid-major) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--blueprint-grid-major) 1px, transparent 1px);
+  background-size: 120px 120px;
 }
 
-/* Corner Crosshairs for Technical CAD aesthetics */
+/* CAD Corner Registration Marks (Target & Crosshairs) */
 .corner-marks {
   position: relative;
 }
@@ -54,7 +70,8 @@ body {
   font-family: var(--font-mono);
   font-size: 14px;
   line-height: 1;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--blueprint-ink);
+  opacity: 0.6;
   pointer-events: none;
 }
 
@@ -68,6 +85,82 @@ body {
   right: -7px;
 }
 
+/* Technical Dimension Callout Lines */
+.dimension-line {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dimension-line::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--blueprint-ink);
+  opacity: 0.4;
+  z-index: 0;
+}
+
+.dimension-line span {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-primary);
+  padding: 0 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--blueprint-ink);
+}
+
+/* Authentic Architectural Title Block (Kop Gambar) */
+.title-block {
+  border: 2px solid var(--border-cad);
+  background: rgba(10, 14, 22, 0.95);
+  font-family: var(--font-mono);
+}
+
+.title-block-cell {
+  border-right: 1px solid var(--border-cad);
+  border-bottom: 1px solid var(--border-cad);
+  padding: 4px 8px;
+}
+
+/* Live HUD Coordinate Overlay */
+#cad-hud {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Interactive Crosshair Cursor on Drawing Viewers */
+.crosshair-target {
+  cursor: crosshair;
+}
+
+/* Sliders Styling for Simulation Widget */
+input[type=range] {
+  -webkit-appearance: none;
+  background: #1f2937;
+  height: 6px;
+  border-radius: 3px;
+  outline: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  background: var(--accent-cyan);
+  cursor: pointer;
+  border: 2px solid #000;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+}
+
 /* Custom technical scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
@@ -75,7 +168,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0c10;
+  background: #080a0f;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -84,15 +177,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: var(--accent-cyan);
 }
 
-/* Image zoom transition */
-.project-card:hover .project-thumb {
-  transform: scale(1.03);
-}
-
-/* Accessible focus visible outlines */
+/* Focus visible outlines */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible {
@@ -100,20 +188,29 @@ input:focus-visible {
   outline-offset: 2px;
 }
 
-/* Animation utilities */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Animations */
+@keyframes pulseSubtle {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.animate-pulse-subtle {
+  animation: pulseSubtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Print/Plotting aesthetic style */
-@media print {
-  body {
-    background: white;
-    color: black;
-  }
+@keyframes sweepScan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
+}
+
+.scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+  opacity: 0.25;
+  pointer-events: none;
+  animation: sweepScan 6s linear infinite;
 }
