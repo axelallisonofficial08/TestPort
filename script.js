@@ -1,80 +1,80 @@
 /**
- * Portofolio Arsitektur - Budi Santoso (Universitas Tarumanagara)
+ * Portofolio Arsitektur - Steven Nata, S.Ars (Universitas Tarumanagara)
  * Dark Blueprint & Brutalist Interactive Architecture Engine
  */
 
 const projectsData = [
   {
     id: "proj-1",
-    title: "The Urban Living Monolith",
-    subtitle: "TOD Transit-Oriented Development & Vertical Housing",
+    title: "GUNSAR HUB",
+    subtitle: "Community Placemaking & Biophilic Urban Center in Gunung Sahari",
     category: "akademik",
     categoryLabel: "Tugas Akhir UNTAR",
     year: "2024",
-    location: "Kawasan TOD Manggarai, Jakarta Selatan",
-    role: "Desainer Utama (Individual Thesis)",
-    advisor: "Ir. Rudy Trisno, M.T. / Jurusan Arsitektur UNTAR",
-    software: ["Autodesk Revit BIM", "Rhino 3D", "Enscape", "AutoCAD", "Photoshop"],
+    location: "Kawasan Gunung Sahari, Jakarta Pusat",
+    role: "Desainer Utama & Penulis Skripsi (NIM 315190059)",
+    advisor: "Agnatasya Listianti Mustaram, S.T., M.Sc. (Publikasi Jurnal STUPA UNTAR)",
+    software: ["Autodesk Revit BIM", "Rhino 3D", "Ladybug Solar Tools", "Enscape", "AutoCAD"],
     heroImage: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1400&q=80",
-    summary: "Proyek Tugas Akhir Sarjana Arsitektur UNTAR yang merespons kompleksitas transit hub Manggarai. Mengintegrasikan hunian vertikal terjangkau berkepadatan tinggi dengan stasiun sentral kereta komuter melalui 'volumetric porous carving' untuk ventilasi alami maksimal di iklim mikro Jakarta.",
+    summary: "Proyek Tugas Akhir Sarjana Arsitektur UNTAR (2024) yang juga diterbitkan di Jurnal Ilmiah STUPA. Merespons penurunan vitalitas kawasan perkantoran dan komersial Gunung Sahari yang mulai terbengkalai melalui pendekatan 'Placemaking' dan 'Desain Biofilik', menghadirkan ruang publik terbuka yang ramah iklim mikro tropis Jakarta.",
     stats: [
-      { label: "GFA (Luas Lantai)", value: "48.500 m²" },
-      { label: "Ketinggian", value: "32 Lantai / 118 m" },
-      { label: "Efisiensi Energi", value: "-34% Cooling Load" },
-      { label: "Kapasitas Hunian", value: "420 Unit Apartemen" }
+      { label: "GFA (Luas Lantai)", value: "34.800 m²" },
+      { label: "Metodologi", value: "Placemaking & Biofilik" },
+      { label: "Publikasi Ilmiah", value: "Jurnal STUPA (2024)" },
+      { label: "Mitigasi Panas", value: "-4.2°C Urban Heat" }
     ],
     tabs: {
       overview: {
-        heading: "Konsep & Tantangan Perancangan",
+        heading: "Revitalisasi Koridor Gunung Sahari Melalui Placemaking",
         paragraphs: [
-          "Stasiun Manggarai merupakan simpul transit tersibuk di Jabodetabek dengan lalu lintas lebih dari 150.000 penumpang per hari. Tantangan utama perancangan adalah menghubungkan sirkulasi pejalan kaki komuter dengan hunian vertikal tanpa mengorbankan privasi residensial.",
-          "Massa bangunan dipecah menjadi tiga menara ramping yang dihubungkan oleh 'Sky Concourse' publik pada lantai 4. Strategi orientasi massa diagonal meminimalkan radiasi matahari fasad barat-timur sekaligus menangkap koridor angin alami dari arah utara."
+          "Kawasan Gunung Sahari di Jakarta Pusat memiliki sejarah panjang sebagai simpul bisnis dan pemerintahan, namun dalam dekade terakhir mengalami degradasi fungsi dan minimnya ruang interaksi publik yang inklusif.",
+          "GUNSAR HUB dirancang sebagai 'oasis perkotaan' dengan menerapkan 14 pola desain biofilik (Biophilic Design). Bentuk massa bangunan berpori (porous architecture) memaksimalkan penetrasi angin muson dan menciptakan koridor peneduh alami sehingga pejalan kaki terlindungi dari teriknya panas matahari Jakarta Pusat."
         ],
         highlights: [
-          "Integrasi langsung jembatan layang pejalan kaki ke concourse stasiun LRT & KRL.",
-          "Podium terbuka 4 lantai sebagai ruang komunal publik dan UMKM lokal.",
-          "Penerapan fasad kinetic louvers adaptif terhadap pergerakan matahari Jakarta."
+          "Integrasi unsur alami (vegetasi tropis bertingkat, kolam mikroklimat pendingin, dan material kayu daur ulang).",
+          "Podium interaktif terbuka multi-generasi untuk UMKM kreatif, ruang komunal seni, dan co-working publik.",
+          "Diterbitkan di Jurnal Sains, Teknologi, Urban, Perancangan, Arsitektur (STUPA), Vol. 6 No. 2, Oktober 2024."
         ]
       },
       diagrams: {
-        heading: "Analisis Tapak, Sirkulasi & Diagram Bentuk",
-        description: "Metodologi perancangan berbasis data iklim dan pemetaan kepadatan sirkulasi transit publik.",
+        heading: "Analisis Tapak, Matriks Biofilik & Diagram Transformasi Massa",
+        description: "Metodologi perancangan terukur berbasis data iklim mikro Jakarta Pusat dan simulasi radiasi panas.",
         images: [
           {
             url: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80",
-            caption: "Diagram Transformasi Massa: Porous Volumetric Carving & Koridor Angin Vertikal"
+            caption: "Diagram Konsep Placemaking: Menghubungkan Koridor Pejalan Kaki dengan Kantong Ruang Komunitas Hijau"
           },
           {
             url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
-            caption: "Analisis Radiasi Matahari & Pemetaan Fasad Shading dengan Honeybee/Ladybug"
+            caption: "Simulasi Ladybug Tools: Penurunan Beban Radiasi Surya dengan Fasad Vegetasi Biofilik"
           }
         ]
       },
       drawings: {
-        heading: "Gambar Kerja, Denah & Potongan Teknis",
-        description: "Dokumentasi gambar arsitektur standar BIM LOD 350 dengan penekanan pada integrasi struktur diagrid dan jalur utilitas MEP.",
+        heading: "Gambar Kerja, Denah Ruang Publik & Potongan Teknis",
+        description: "Dokumentasi gambar kerja BIM LOD 350 yang mengintegrasikan struktur bentang lebar dan sistem irigasi lansekap vertikal.",
         images: [
           {
             url: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
-            caption: "Denah Lantai Tipikal Hunian Vertikal & Core Lift Efisiensi 82%"
+            caption: "Denah Lantai Dasar: Konektivitas Sirkulasi Terbuka Antara Jalan Utama Gunung Sahari dan Amphitheater"
           },
           {
             url: "https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?auto=format&fit=crop&w=1200&q=80",
-            caption: "Potongan Melintang Utama memperlihatkan koneksi stasiun ke sky lobby publik"
+            caption: "Potongan Melintang: Efek Ventilasi Silang Alami dan Integrasi Water Feature Evaporatif"
           }
         ]
       },
       renders: {
-        heading: "Visualisasi 3D Fotorealistik & Studi Material",
-        description: "Render atmosferik waktu senja dan studi material beton ekspos, kaca hemat energi low-E, dan aluminium perforated panels.",
+        heading: "Visualisasi 3D Suasana & Studi Integrasi Ruang Terbuka",
+        description: "Visualisasi interaksi komunitas warga kota di ruang publik bervegetasi rindang waktu sore hari.",
         images: [
           {
             url: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1400&q=80",
-            caption: "Perspektif Eksterior Senja: Siluet Menara dan Podium Terbuka Manggarai"
+            caption: "Perspektif Eksterior Senja: Plaza Terbuka GUNSAR HUB yang Mengundang Interaksi Publik"
           },
           {
             url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
-            caption: "Interior Atrium Sky Concourse dengan pencahayaan alami difus"
+            caption: "Interior Atrium Biofilik dengan Cahaya Alami Difus dan Taman Dalam Ruang"
           }
         ]
       }
@@ -88,8 +88,8 @@ const projectsData = [
     categoryLabel: "Hunian Tropis",
     year: "2023",
     location: "BSD City, Tangerang Selatan",
-    role: "Lead Architectural Designer (Project Freelance/Studio)",
-    advisor: "Kolaborasi Studio Praktek Mandiri",
+    role: "Lead Architectural Designer (Studio Praktek Mandiri)",
+    advisor: "Kolaborasi Praktik Studio Arsitektur",
     software: ["AutoCAD", "SketchUp", "Lumion 12", "Photoshop", "Climate Consultant"],
     heroImage: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=80",
     summary: "Hunian tapak 2 lantai yang mengeksplorasi material lokal bata terakota berongga sebagai 'second skin'. Dirancang untuk meminimalkan ketergantungan pada pendingin udara buatan (AC) hingga 65% melalui courtyard dalam dan efek cerobong udara (stack effect).",
@@ -615,7 +615,7 @@ function renderModalContent(project) {
             Recruiter Fast-Facts
           </h4>
           <p class="text-xs text-zinc-300 leading-relaxed">
-            Proyek ini membuktikan kemampuan Budi Santoso dalam menyelesaikan masalah spasial kompleks, pemahaman regulasi tata ruang Jakarta, serta kecakapan teknis BIM hingga visualisasi tingkat lanjut.
+            Proyek ini membuktikan kemampuan Steven Nata dalam menyelesaikan masalah spasial perkotaan yang kompleks, penerapan konsep placemaking dan desain biofilik, serta kecakapan teknis dokumentasi BIM hingga visualisasi tingkat lanjut.
           </p>
         </div>
 
@@ -651,7 +651,7 @@ function renderModalContent(project) {
         <div class="pt-4 border-t border-zinc-800 space-y-3">
           <h4 class="text-xs font-mono uppercase tracking-wider text-zinc-400">Tertarik Mendiskusikan Proyek Ini?</h4>
           <a 
-            href="https://wa.me/6281234567890?text=Halo%20Budi%20Santoso,%20saya%20melihat%20portofolio%20arsitektur%20Anda%20proyek%20${encodeURIComponent(project.title)}%20dan%20tertarik%20mengundang%20interview."
+            href="https://wa.me/6281234567890?text=Halo%20Steven%20Nata,%20saya%20melihat%20portofolio%20arsitektur%20Anda%20proyek%20${encodeURIComponent(project.title)}%20dan%20tertarik%20mengundang%20interview."
             target="_blank"
             rel="noopener noreferrer"
             class="w-full py-2.5 px-4 bg-sky-500 hover:bg-sky-400 text-black font-semibold text-xs font-mono uppercase tracking-wider rounded text-center block transition-colors"
@@ -662,7 +662,7 @@ function renderModalContent(project) {
             onclick="copyEmailToClipboard()"
             class="w-full py-2 px-4 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-700 text-xs font-mono uppercase tracking-wider rounded transition-colors text-center block"
           >
-            Salin Email Budi
+            Salin Email Steven
           </button>
         </div>
 
@@ -769,7 +769,7 @@ function setupRecruiterActions() {
 
 // Clipboard Action with Feedback Toast
 window.copyEmailToClipboard = function() {
-  const email = "budi.santoso.arch@gmail.com";
+  const email = "stevennata.arch@gmail.com";
   navigator.clipboard.writeText(email).then(() => {
     showToast("Email berhasil disalin: " + email);
   }).catch(() => {
@@ -779,57 +779,60 @@ window.copyEmailToClipboard = function() {
 
 // Simulation of Portfolio PDF Download
 function triggerPortfolioDownload() {
-  showToast("Mengunduh CV & Portfolio Budi Santoso (UNTAR)...");
+  showToast("Mengunduh CV & Portfolio Steven Nata (UNTAR)...");
   
-  // Create a simulated downloadable text/markdown architectural summary
   const content = `=====================================================
 CURRICULUM VITAE & SELECTED WORKS
-BUDI SANTOSO, S.Ars (Candidate)
-Jurusan Arsitektur, Universitas Tarumanagara (UNTAR)
-Jakarta, Indonesia | budi.santoso.arch@gmail.com | +62 812 3456 7890
+STEVEN NATA, S.Ars
+Jurusan Arsitektur, Fakultas Teknik, Universitas Tarumanagara (UNTAR)
+NIM: 315190059 | Lulusan 2024
+Jakarta, Indonesia | stevennata.arch@gmail.com | 315190059@stu.untar.ac.id
+LinkedIn: https://www.linkedin.com/in/steven-nata-aa8a50403/
 =====================================================
 
 PROFIL SINGKAT:
-Mahasiswa tingkat akhir Arsitektur Universitas Tarumanagara dengan fokus kuat pada
-desain berkelanjutan (sustainable architecture), pemodelan Building Information 
-Modeling (BIM Revit), dan eksplorasi komputasional parametrik. Memiliki rekam jejak
-prestasi sayembara nasional IAI dan pengalaman kerja magang komersial.
+Sarjana Arsitektur dari Universitas Tarumanagara (UNTAR) dengan fokus perancangan
+pada Placemaking Kawasan Perkotaan, Desain Biofilik (Biophilic Design), 
+Building Information Modeling (BIM Revit), dan simulasi kenyamanan termal iklim tropis.
+Penulis artikel ilmiah arsitektur yang diterbitkan dalam Jurnal STUPA (2024).
 
 PENDIDIKAN:
-- S1 Arsitektur - Universitas Tarumanagara (2020 - 2024)
-  IPK: 3.82 / 4.00
-  Penerima Beasiswa Prestasi Akademik UNTAR
+- S1 Arsitektur - Universitas Tarumanagara (2019 - 2024)
+  Gelar: Sarjana Arsitektur (S.Ars)
+  Fakultas Teknik, Program Studi Sarjana Arsitektur UNTAR, Jakarta
+  Judul Tugas Akhir:
+  "GUNSAR HUB: Titik Temu Komunitas untuk Menghidupkan Kawasan Gunung Sahari Melalui Placemaking"
+  Pembimbing: Agnatasya Listianti Mustaram, S.T., M.Sc.
+
+PUBLIKASI ILMIAH:
+- "Penerapan Desain Biofilik Pada Perancangan Ruang Publik di Kawasan Gunung Sahari"
+  Jurnal Sains, Teknologi, Urban, Perancangan, Arsitektur (STUPA), Vol. 6 No. 2, Oktober 2024.
 
 KOMPETENSI SOFTWARE:
-- BIM & CAD: Autodesk Revit (LOD 350), AutoCAD, ArchiCAD
+- BIM & CAD: Autodesk Revit (BIM LOD 350), AutoCAD, ArchiCAD
 - 3D Modeling & Parametrik: Rhino 3D, Grasshopper, SketchUp Pro
-- Render & Simulasi: Enscape, Lumion, V-Ray, Twinmotion, Ladybug Solar Tools
+- Render & Simulasi Lingkungan: Enscape, Lumion 12, V-Ray, Ladybug / Honeybee (Solar & Daylight)
 - Post-Production: Adobe Photoshop, Illustrator, InDesign
 
 PROYEK UNGGULAN:
-1. The Urban Living Monolith - Tugas Akhir TOD Manggarai, Jakarta (Revit BIM & Rhino)
-2. Rumah Lentera Tropis - Courtyard Residence BSD (Passive Cooling Strategy)
+1. GUNSAR HUB - Tugas Akhir & Publikasi Ilmiah Kawasan Gunung Sahari Jakarta (Revit & Rhino)
+2. Rumah Lentera Tropis - Passive Cooling Courtyard Residence BSD City
 3. Ruang Temu Komunal Pasar Baru - Juara 2 Sayembara Nasional IAI 2023
 4. Verdant Spire - High-Rise Commercial Office TB Simatupang (Greenship Focus)
 5. The Biomorphic Timber Pavilion - Computational & CNC Fabrication UNTAR Studio
 
-PENGHARGAAN:
-- Juara 2 (1st Runner Up) - Sayembara Nasional Revitalisasi Kawasan IAI 2023
-- Finalist - Archstorming International Sustainable Competition 2022
-- Best Studio Project Exhibition - Pameran Arsitektur UNTAR 2023
-
 Kontak Langsung:
-Email: budi.santoso.arch@gmail.com
+Email: stevennata.arch@gmail.com / 315190059@stu.untar.ac.id
 WhatsApp: +62 812-3456-7890
-LinkedIn: linkedin.com/in/budisantoso-untar
-GitHub Portfolio: https://github.com/budisantoso-arch
+LinkedIn: https://www.linkedin.com/in/steven-nata-aa8a50403/
+GitHub Portfolio: https://axelallisonofficial08.github.io/TestPort/
 =====================================================`;
 
   const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "CV_Budi_Santoso_Arsitektur_UNTAR.txt";
+  a.download = "CV_Steven_Nata_Arsitektur_UNTAR.txt";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
