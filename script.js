@@ -1,7 +1,7 @@
 /**
  * Portofolio Arsitektur - Steven Nata, S.Ars (Universitas Tarumanagara)
- * Dark Blueprint & Brutalist Interactive Architecture Engine
- * Features: Live CAD HUD, Sun-Path & Biophilic Simulator, Web Audio FX, Blueprint Inversion
+ * Antigravity Spatial & Motion Design Engine
+ * Features: Three.js 3D Model (Gunsar Hub), 3D Tilt Cards, GSAP Animations, CAD HUD, Biophilic Simulator
  */
 
 // ==========================================
@@ -378,7 +378,397 @@ const projectsData = [
 ];
 
 // ==========================================
-// 2. WEB AUDIO SYNTHESIZER (TECHNICAL AUDIO FX)
+// 2. THREE.JS 3D ARCHITECTURAL MODEL (GUNSAR HUB)
+// ==========================================
+let scene3D, camera3D, renderer3D, modelGroup;
+let isWireframe = false;
+let isExploded = false;
+let currentLightingMode = 'day';
+let floorMeshes = [];
+let isDragging3D = false;
+let previousMousePosition = { x: 0, y: 0 };
+
+function initThreeJsModel() {
+  const container = document.getElementById("hero-3d-container");
+  if (!container || typeof THREE === "undefined") return;
+
+  const width = container.clientWidth;
+  const height = container.clientHeight || 420;
+
+  // Scene
+  scene3D = new THREE.Scene();
+  scene3D.fog = new THREE.FogExp2(0x05070b, 0.015);
+
+  // Isometric-style Perspective Camera
+  camera3D = new THREE.PerspectiveCamera(40, width / height, 0.1, 1000);
+  camera3D.position.set(24, 22, 28);
+  camera3D.lookAt(0, 4, 0);
+
+  // Renderer
+  renderer3D = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+  renderer3D.setSize(width, height);
+  renderer3D.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer3D.shadowMap.enabled = true;
+  renderer3D.shadowMap.type = THREE.PCFSoftShadowMap;
+
+  container.innerHTML = "";
+  container.appendChild(renderer3D.domElement);
+  renderer3D.domElement.id = "hero-3d-canvas";
+
+  // Lighting
+  setup3DLighting('day');
+
+  // Ground Grid (Architectural CAD Grid in 3D)
+  const gridHelper = new THREE.GridHelper(40, 40, 0x38bdf8, 0x1e293b);
+  gridHelper.position.y = -0.05;
+  scene3D.add(gridHelper);
+
+  // Build Procedural Architectural Model (GUNSAR HUB Placemaking Mass)
+  modelGroup = new THREE.Group();
+  buildGunsarHub3DModel(modelGroup);
+  scene3D.add(modelGroup);
+
+  // Event Listeners for Orbit Drag
+  const canvas = renderer3D.domElement;
+  canvas.addEventListener('mousedown', (e) => {
+    isDragging3D = true;
+    previousMousePosition = { x: e.clientX, y: e.clientY };
+  });
+
+  window.addEventListener('mouseup', () => { isDragging3D = false; });
+
+  canvas.addEventListener('mousemove', (e) => {
+    if (!isDragging3D) return;
+    const deltaX = e.clientX - previousMousePosition.x;
+    const deltaY = e.clientY - previousMousePosition.y;
+
+    modelGroup.rotation.y += deltaX * 0.008;
+    camera3D.position.y = Math.max(5, Math.min(40, camera3D.position.y - deltaY * 0.1));
+    camera3D.lookAt(0, 4, 0);
+
+    previousMousePosition = { x: e.clientX, y: e.clientY };
+  });
+
+  // Touch controls for mobile
+  canvas.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) {
+      isDragging3D = true;
+      previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => { isDragging3D = false; });
+
+  canvas.addEventListener('touchmove', (e) => {
+    if (!isDragging3D || e.touches.length !== 1) return;
+    const deltaX = e.touches[0].clientX - previousMousePosition.x;
+    modelGroup.rotation.y += deltaX * 0.008;
+    previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  }, { passive: true });
+
+  // Zoom with Wheel
+  canvas.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const zoomDelta = e.deltaY * 0.03;
+    camera3D.position.z = Math.max(14, Math.min(60, camera3D.position.z + zoomDelta));
+    camera3D.position.x = Math.max(12, Math.min(50, camera3D.position.x + zoomDelta * 0.8));
+    camera3D.lookAt(0, 4, 0);
+  }, { passive: false });
+
+  // Resize handler
+  window.addEventListener('resize', () => {
+    if (!container || !renderer3D || !camera3D) return;
+    const newWidth = container.clientWidth;
+    const newHeight = container.clientHeight || 420;
+    camera3D.aspect = newWidth / newHeight;
+    camera3D.updateProjectionMatrix();
+    renderer3D.setSize(newWidth, newHeight);
+  });
+
+  // Animation Loop
+  let clock = new THREE.Clock();
+  function animate3D() {
+    requestAnimationFrame(animate3D);
+    const elapsedTime = clock.getElapsedTime();
+
+    // Gentle idle auto-rotation if not dragging
+    if (!isDragging3D && modelGroup) {
+      modelGroup.rotation.y += 0.0025;
+    }
+
+    renderer3D.render(scene3D, camera3D);
+  }
+  animate3D();
+}
+
+function buildGunsarHub3DModel(group) {
+  floorMeshes = [];
+
+  // Materials
+  const slabMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.4, metalness: 0.2 });
+  const glassMat = new THREE.MeshPhysicalMaterial({ color: 0x38bdf8, transmission: 0.85, opacity: 1, transparent: true, roughness: 0.1, ior: 1.5 });
+  const canopyMat = new THREE.MeshStandardMaterial({ color: 0x10b981, roughness: 0.7, metalness: 0.1 });
+  const columnMat = new THREE.MeshStandardMaterial({ color: 0x64748b, roughness: 0.3 });
+  const coreMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.8 });
+
+  // 1. Central Structural Core
+  const coreGeo = new THREE.BoxGeometry(4, 16, 4);
+  const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+  coreMesh.position.set(0, 8, 0);
+  group.add(coreMesh);
+
+  // 2. Multi-tier Porous Floor Plates (GUNSAR HUB)
+  const floorConfigs = [
+    { y: 0.6, w: 16, d: 14, h: 0.5, name: "Ground Concourse" },
+    { y: 3.2, w: 15, d: 13, h: 0.4, name: "Level 1: Community Plaza" },
+    { y: 5.8, w: 13, d: 11, h: 0.4, name: "Level 2: Artisan & UMKM" },
+    { y: 8.4, w: 10, d: 10, h: 0.4, name: "Level 3: Co-Working Hub" },
+    { y: 11.0, w: 8,  d: 8,  h: 0.4, name: "Level 4: Sky Terrace" },
+    { y: 13.6, w: 7,  d: 6,  h: 0.4, name: "Roof Biophilic Canopy" }
+  ];
+
+  floorConfigs.forEach((cfg, idx) => {
+    const floorNode = new THREE.Group();
+    floorNode.userData = { originalY: cfg.y, floorIndex: idx };
+
+    // Concrete Slab
+    const slabGeo = new THREE.BoxGeometry(cfg.w, cfg.h, cfg.d);
+    const slab = new THREE.Mesh(slabGeo, slabMat);
+    slab.position.y = 0;
+    slab.castShadow = true;
+    slab.receiveShadow = true;
+    floorNode.add(slab);
+
+    // Glass Curtain Wall
+    const glassGeo = new THREE.BoxGeometry(cfg.w - 0.4, 2.0, cfg.d - 0.4);
+    const glass = new THREE.Mesh(glassGeo, glassMat);
+    glass.position.y = 1.2;
+    floorNode.add(glass);
+
+    // Perimeter Architectural Columns
+    const colGeo = new THREE.CylinderGeometry(0.15, 0.15, 2.2, 8);
+    const colPositions = [
+      [-cfg.w/2 + 0.6, 1.2, -cfg.d/2 + 0.6],
+      [ cfg.w/2 - 0.6, 1.2, -cfg.d/2 + 0.6],
+      [-cfg.w/2 + 0.6, 1.2,  cfg.d/2 - 0.6],
+      [ cfg.w/2 - 0.6, 1.2,  cfg.d/2 - 0.6]
+    ];
+    colPositions.forEach(pos => {
+      const col = new THREE.Mesh(colGeo, columnMat);
+      col.position.set(...pos);
+      floorNode.add(col);
+    });
+
+    // Biophilic Green Planters on Terraces
+    if (idx === 1 || idx === 3 || idx === 4) {
+      const planterGeo = new THREE.BoxGeometry(cfg.w * 0.35, 0.4, cfg.d * 0.25);
+      const planter = new THREE.Mesh(planterGeo, canopyMat);
+      planter.position.set(cfg.w * 0.25, 0.4, cfg.d * 0.25);
+      floorNode.add(planter);
+    }
+
+    // Top Parametric Canopy Roof
+    if (idx === 5) {
+      const roofLouverGeo = new THREE.BoxGeometry(cfg.w + 2, 0.2, cfg.d + 2);
+      const roofMesh = new THREE.Mesh(roofLouverGeo, canopyMat);
+      roofMesh.position.y = 2.4;
+      floorNode.add(roofMesh);
+    }
+
+    floorNode.position.y = cfg.y;
+    group.add(floorNode);
+    floorMeshes.push(floorNode);
+  });
+}
+
+function setup3DLighting(mode) {
+  currentLightingMode = mode;
+  // Clear previous lights
+  const toRemove = [];
+  scene3D.children.forEach(child => {
+    if (child.isLight) toRemove.push(child);
+  });
+  toRemove.forEach(l => scene3D.remove(l));
+
+  if (mode === 'day') {
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    scene3D.add(ambientLight);
+
+    const sunLight = new THREE.DirectionalLight(0xfff5e6, 1.8);
+    sunLight.position.set(18, 30, 20);
+    sunLight.castShadow = true;
+    sunLight.shadow.mapSize.width = 1024;
+    sunLight.shadow.mapSize.height = 1024;
+    scene3D.add(sunLight);
+
+    const blueFill = new THREE.DirectionalLight(0x38bdf8, 0.6);
+    blueFill.position.set(-20, 15, -15);
+    scene3D.add(blueFill);
+  } else if (mode === 'dusk') {
+    const ambientLight = new THREE.AmbientLight(0x7c3aed, 0.5);
+    scene3D.add(ambientLight);
+
+    const duskSun = new THREE.DirectionalLight(0xf97316, 2.2);
+    duskSun.position.set(25, 10, 15);
+    duskSun.castShadow = true;
+    scene3D.add(duskSun);
+
+    const cyanRim = new THREE.DirectionalLight(0x38bdf8, 0.8);
+    cyanRim.position.set(-20, 20, -10);
+    scene3D.add(cyanRim);
+  } else if (mode === 'night') {
+    const ambientLight = new THREE.AmbientLight(0x0a192f, 0.4);
+    scene3D.add(ambientLight);
+
+    const cyanNeon = new THREE.PointLight(0x38bdf8, 2.5, 35);
+    cyanNeon.position.set(0, 10, 0);
+    scene3D.add(cyanNeon);
+
+    const amberNeon = new THREE.PointLight(0xfbbf24, 2.0, 25);
+    amberNeon.position.set(6, 4, 6);
+    scene3D.add(amberNeon);
+  }
+}
+
+// 3D Controls Actions
+window.toggle3DWireframe = function() {
+  playCadSound("blip");
+  isWireframe = !isWireframe;
+  if (!modelGroup) return;
+
+  modelGroup.traverse((child) => {
+    if (child.isMesh && child.material) {
+      child.material.wireframe = isWireframe;
+    }
+  });
+
+  const btn = document.getElementById("btn-3d-wireframe");
+  if (btn) {
+    btn.classList.toggle("active", isWireframe);
+    btn.innerText = isWireframe ? "WIREFRAME: ON" : "WIREFRAME";
+  }
+  showToast(isWireframe ? "3D Wireframe CAD Mode: AKTIF" : "3D Surface Shaded Mode: AKTIF");
+};
+
+window.toggle3DExplode = function() {
+  playCadSound("blip");
+  isExploded = !isExploded;
+  if (!floorMeshes.length) return;
+
+  floorMeshes.forEach(node => {
+    const origY = node.userData.originalY;
+    const targetY = isExploded ? origY * 1.8 + 2.5 : origY;
+    
+    // Smooth GSAP Antigravity Floating Transition
+    if (typeof gsap !== "undefined") {
+      gsap.to(node.position, {
+        y: targetY,
+        duration: 1.2,
+        ease: "power3.out"
+      });
+    } else {
+      node.position.y = targetY;
+    }
+  });
+
+  const btn = document.getElementById("btn-3d-explode");
+  if (btn) {
+    btn.classList.toggle("active", isExploded);
+    btn.innerText = isExploded ? "COLLAPSE" : "EXPLODE FLOORS";
+  }
+  showToast(isExploded ? "Antigravity Floor Plate Exploded" : "Floor Plates Collapsed");
+};
+
+window.cycle3DLighting = function() {
+  playCadSound("tick");
+  const modes = ['day', 'dusk', 'night'];
+  const nextIdx = (modes.indexOf(currentLightingMode) + 1) % modes.length;
+  setup3DLighting(modes[nextIdx]);
+
+  const btn = document.getElementById("btn-3d-light");
+  if (btn) {
+    btn.innerText = `LIGHT: ${modes[nextIdx].toUpperCase()}`;
+  }
+  showToast(`Tata Cahaya 3D: ${modes[nextIdx].toUpperCase()}`);
+};
+
+window.reset3DCamera = function() {
+  playCadSound("blip");
+  if (typeof gsap !== "undefined" && camera3D && modelGroup) {
+    gsap.to(modelGroup.rotation, { y: 0, duration: 1.2, ease: "power3.out" });
+    gsap.to(camera3D.position, { x: 24, y: 22, z: 28, duration: 1.2, ease: "power3.out", onUpdate: () => camera3D.lookAt(0, 4, 0) });
+  } else if (camera3D && modelGroup) {
+    modelGroup.rotation.y = 0;
+    camera3D.position.set(24, 22, 28);
+    camera3D.lookAt(0, 4, 0);
+  }
+  showToast("Orientasi Kamera 3D Direset");
+};
+
+// ==========================================
+// 3. 3D TILT CARDS & DYNAMIC SHEEN ENGINE
+// ==========================================
+function setup3DTiltCards() {
+  const cards = document.querySelectorAll(".tilt-card");
+
+  cards.forEach(card => {
+    card.addEventListener("mousemove", (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const rotateX = ((y - centerY) / centerY) * -9; // Max 9 deg tilt
+      const rotateY = ((x - centerX) / centerX) * 9;
+
+      card.style.transform = `rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+      card.style.setProperty("--mouse-x", `${x}px`);
+      card.style.setProperty("--mouse-y", `${y}px`);
+    });
+
+    card.addEventListener("mouseleave", () => {
+      card.style.transform = "rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
+    });
+  });
+}
+
+// ==========================================
+// 4. GSAP ENTRANCE & MOTION REVEAL
+// ==========================================
+function setupGsapAnimations() {
+  if (typeof gsap === "undefined") return;
+
+  // Staggered Entrance on Hero Typography & Badges
+  gsap.from(".hero-anim-item", {
+    opacity: 0,
+    y: 35,
+    stagger: 0.1,
+    duration: 1.0,
+    ease: "power3.out"
+  });
+
+  // Stagger Project Cards on Scroll if ScrollTrigger is active
+  if (typeof ScrollTrigger !== "undefined") {
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from(".project-card", {
+      scrollTrigger: {
+        trigger: "#projects-grid",
+        start: "top 80%"
+      },
+      opacity: 0,
+      y: 40,
+      stagger: 0.12,
+      duration: 0.9,
+      ease: "power3.out"
+    });
+  }
+}
+
+// ==========================================
+// 5. WEB AUDIO SYNTHESIZER (TECHNICAL AUDIO FX)
 // ==========================================
 let audioContext = null;
 let soundEnabled = false;
@@ -404,7 +794,6 @@ function playCadSound(type = "tick") {
     const now = audioContext.currentTime;
 
     if (type === "tick") {
-      // Subtle precision tick
       osc.type = "sine";
       osc.frequency.setValueAtTime(1400, now);
       osc.frequency.exponentialRampToValueAtTime(800, now + 0.03);
@@ -413,7 +802,6 @@ function playCadSound(type = "tick") {
       osc.start(now);
       osc.stop(now + 0.03);
     } else if (type === "blip") {
-      // High-tech CAD snap sound
       osc.type = "triangle";
       osc.frequency.setValueAtTime(880, now);
       osc.frequency.setValueAtTime(1760, now + 0.04);
@@ -423,7 +811,7 @@ function playCadSound(type = "tick") {
       osc.stop(now + 0.08);
     }
   } catch (e) {
-    // Audio context fallback safe
+    // fallback safe
   }
 }
 
@@ -445,7 +833,7 @@ window.toggleSound = function() {
 };
 
 // ==========================================
-// 3. BLUEPRINT THEME INVERSION ENGINE
+// 6. BLUEPRINT THEME INVERSION ENGINE
 // ==========================================
 window.toggleBlueprintMode = function() {
   playCadSound("blip");
@@ -457,21 +845,22 @@ window.toggleBlueprintMode = function() {
     modeText.innerText = isBlueprint ? "MODE: CYAN DRAFTING BLUEPRINT" : "MODE: CAD OBSIDIAN SLATE";
   }
 
+  // Update 3D scene background fog if active
+  if (scene3D) {
+    scene3D.fog.color.setHex(isBlueprint ? 0x021020 : 0x05070b);
+  }
+
   showToast(isBlueprint ? "Tema beralih: Cyan Drafting Blueprint" : "Tema beralih: Dark Obsidian Slate");
 };
 
 // ==========================================
-// 4. LIVE CAD COORDINATES HUD TRACKER
+// 7. LIVE CAD COORDINATES HUD TRACKER
 // ==========================================
 function setupCadHud() {
   const hudElement = document.getElementById("cad-coords-live");
   if (!hudElement) return;
 
-  let lastX = 0;
-  let lastY = 0;
-
   window.addEventListener("mousemove", (e) => {
-    // Calculate simulated architectural meters based on viewport
     const archX = ((e.clientX / window.innerWidth) * 120 - 60).toFixed(2);
     const archY = (((window.innerHeight - e.clientY) / window.innerHeight) * 80).toFixed(2);
     const azimuth = (Math.atan2(e.clientX - window.innerWidth/2, e.clientY - window.innerHeight/2) * (180 / Math.PI) + 180).toFixed(1);
@@ -481,7 +870,7 @@ function setupCadHud() {
 }
 
 // ==========================================
-// 5. BIOPHILIC & SUN-PATH SIMULATOR (GUNSAR HUB)
+// 8. BIOPHILIC & SUN-PATH SIMULATOR (GUNSAR HUB)
 // ==========================================
 function setupBiophilicSimulator() {
   const sunSlider = document.getElementById("sim-sun-hour");
@@ -497,41 +886,33 @@ function setupBiophilicSimulator() {
     const canopy = parseFloat(canopySlider.value);
     const wind = parseFloat(windSlider.value);
 
-    // Update labels
     const hourFormatted = `${Math.floor(hour).toString().padStart(2, '0')}:${(Math.round((hour % 1) * 60)).toString().padStart(2, '0')} WIB`;
     document.getElementById("sim-sun-label").innerText = hourFormatted;
     document.getElementById("sim-canopy-label").innerText = `${canopy}%`;
     document.getElementById("sim-wind-label").innerText = `${wind.toFixed(1)} m/s`;
 
-    // Calculate solar elevation angle (Peak at 12:00)
-    // Range approx 25° at 08:00 to 86° at 12:00 to 20° at 17:00
     const hoursFromNoon = Math.abs(hour - 12);
     const solarElevation = Math.max(15, 88 - (hoursFromNoon * 14.5));
 
-    // Base urban ambient temperature in Central Jakarta
     let baseUrbanTemp = 31.0 + (5.5 * Math.sin((hour - 8) / 9 * Math.PI));
     if (baseUrbanTemp < 28) baseUrbanTemp = 28;
 
-    // Direct solar insolation (W/m2)
     const baseInsolation = Math.max(80, Math.sin((solarElevation * Math.PI) / 180) * 980);
     const actualInsolation = baseInsolation * (1 - (canopy * 0.0075));
 
-    // Biophilic thermal reduction (Placemaking formula from Steven Nata's thesis)
-    const canopyCooling = (canopy / 100) * 3.4; // up to 3.4°C cooling
-    const windCooling = (wind / 5) * 1.5;       // up to 1.5°C cooling
+    const canopyCooling = (canopy / 100) * 3.4;
+    const windCooling = (wind / 5) * 1.5;
     const totalReduction = canopyCooling + windCooling;
 
     const microclimateTemp = (baseUrbanTemp - totalReduction).toFixed(1);
     const comfortStatus = microclimateTemp <= 28.5 ? "Sangat Nyaman (Biofilik Sejuk)" : microclimateTemp <= 31 ? "Zona Nyaman Termal Tropis" : "Beban Panas Sedang";
 
-    // Update UI Stats
     document.getElementById("sim-res-urban").innerText = `${baseUrbanTemp.toFixed(1)}°C`;
     document.getElementById("sim-res-micro").innerText = `${microclimateTemp}°C`;
     document.getElementById("sim-res-delta").innerText = `-${totalReduction.toFixed(1)}°C`;
     document.getElementById("sim-res-lux").innerText = `${Math.round(actualInsolation)} W/m²`;
     document.getElementById("sim-res-status").innerText = comfortStatus;
 
-    // Update Reactive SVG Sun & Shadow Diagram
     updateSimulationSvg(solarElevation, hour, canopy, totalReduction);
   }
 
@@ -542,15 +923,13 @@ function setupBiophilicSimulator() {
 
     if (!sunOrb || !shadowPolygon || !canopyMesh) return;
 
-    // Sun arc trajectory
-    const progress = (hour - 8) / 9; // 0 to 1
-    const sunX = 50 + progress * 260; // 50 to 310
-    const sunY = 160 - Math.sin(progress * Math.PI) * 120; // Arc height
+    const progress = (hour - 8) / 9;
+    const sunX = 50 + progress * 260;
+    const sunY = 160 - Math.sin(progress * Math.PI) * 120;
 
     sunOrb.setAttribute("cx", sunX);
     sunOrb.setAttribute("cy", sunY);
 
-    // Shadow calculation
     const buildingHeight = 70;
     const shadowLength = (buildingHeight / Math.tan((elevation * Math.PI) / 180)) * (hour < 12 ? -1 : 1);
     const shadowEndX = Math.min(340, Math.max(20, 180 + shadowLength));
@@ -558,7 +937,6 @@ function setupBiophilicSimulator() {
     shadowPolygon.setAttribute("points", `140,160 220,160 ${shadowEndX},160`);
     shadowPolygon.setAttribute("opacity", (0.2 + (canopy / 100) * 0.4).toFixed(2));
 
-    // Canopy opacity
     canopyMesh.setAttribute("opacity", (canopy / 100).toFixed(2));
   }
 
@@ -566,12 +944,11 @@ function setupBiophilicSimulator() {
   canopySlider.addEventListener("input", recalculateSimulation);
   windSlider.addEventListener("input", recalculateSimulation);
 
-  // Initial trigger
   recalculateSimulation();
 }
 
 // ==========================================
-// 6. RENDER PROJECT GRID DENGAN KOP GAMBAR
+// 9. RENDER PROJECT GRID DENGAN 3D TILT CARDS
 // ==========================================
 function renderProjects(filter = "all") {
   const container = document.getElementById("projects-grid");
@@ -583,103 +960,110 @@ function renderProjects(filter = "all") {
 
   container.innerHTML = filtered.map((project, index) => {
     return `
-      <article 
-        class="project-card group relative bg-zinc-950/90 border border-zinc-800 hover:border-sky-400 transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer corner-marks"
-        onclick="openProjectModal('${project.id}')"
-        tabindex="0"
-        role="button"
-        aria-label="Buka gambar kerja dan studi kasus ${project.title}"
-        onkeydown="if(event.key==='Enter'||event.key===' ') { openProjectModal('${project.id}'); event.preventDefault(); }"
-        onmouseenter="playCadSound('tick')"
-      >
-        <!-- Top CAD Title Strip (Header Gambar Kerja) -->
-        <div class="px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 flex items-center justify-between font-mono text-[11px] text-zinc-400">
-          <div class="flex items-center space-x-2">
-            <span class="w-1.5 h-1.5 bg-sky-400 rounded-full animate-pulse"></span>
-            <span class="text-white font-bold">SHEET: ${project.sheetNo}</span>
-            <span class="text-zinc-600">|</span>
-            <span>SCALE ${project.scale}</span>
-          </div>
-          <span class="text-sky-400 uppercase text-[10px] tracking-wider">${project.year}</span>
-        </div>
+      <div class="tilt-card-container">
+        <article 
+          class="tilt-card project-card group relative bg-zinc-950/80 border border-zinc-800 hover:border-sky-400/80 rounded-lg flex flex-col justify-between overflow-hidden cursor-pointer corner-marks glass-panel"
+          onclick="openProjectModal('${project.id}')"
+          tabindex="0"
+          role="button"
+          aria-label="Buka gambar kerja dan studi kasus ${project.title}"
+          onkeydown="if(event.key==='Enter'||event.key===' ') { openProjectModal('${project.id}'); event.preventDefault(); }"
+          onmouseenter="playCadSound('tick')"
+        >
+          <!-- Dynamic Radial Glare overlay -->
+          <div class="radial-glare"></div>
 
-        <!-- Image Container with Scanline effect -->
-        <div class="relative w-full h-64 sm:h-72 overflow-hidden bg-black border-b border-zinc-800/80">
-          <div class="scanline"></div>
-          <img 
-            src="${project.heroImage}" 
-            alt="Proyek Arsitektur: ${project.title} - ${project.subtitle}" 
-            class="project-thumb w-full h-full object-cover transition-transform duration-700 ease-out brightness-90 group-hover:brightness-105"
-            loading="lazy"
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent opacity-85 group-hover:opacity-60 transition-opacity"></div>
-          
-          <!-- Bottom Badges on Image -->
-          <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between pointer-events-none">
-            <span class="px-2.5 py-1 text-[11px] font-mono tracking-wider uppercase bg-zinc-900/95 text-sky-400 border border-sky-400/40 rounded backdrop-blur">
-              ${project.categoryLabel}
-            </span>
-            <span class="text-[11px] font-mono text-zinc-300 bg-black/80 px-2 py-0.5 rounded border border-zinc-700">
-              ${project.location.split(',')[0]}
-            </span>
-          </div>
-        </div>
-
-        <!-- Technical Dimension Bar -->
-        <div class="px-6 pt-3">
-          <div class="dimension-line">
-            <span>◄ DIM: ${(30 + index * 12).toFixed(1)}m ►</span>
-            <span>LEVEL ±0.00</span>
-          </div>
-        </div>
-
-        <!-- Content Area -->
-        <div class="p-6 pt-3 flex-1 flex flex-col justify-between">
-          <div>
-            <h3 class="font-display text-xl md:text-2xl font-bold text-white group-hover:text-sky-300 transition-colors mb-1">
-              ${project.title}
-            </h3>
-            <p class="text-xs font-mono text-sky-400 tracking-wide mb-3">
-              ${project.subtitle}
-            </p>
-            <p class="text-zinc-300 text-sm leading-relaxed line-clamp-3 mb-4">
-              ${project.summary}
-            </p>
-          </div>
-
-          <!-- Bottom Technical Spec Block (Mini Kop Gambar) -->
-          <div class="pt-4 border-t border-zinc-800/80 space-y-3">
-            <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
-              <div class="p-1.5 bg-zinc-900/60 border border-zinc-800 rounded">
-                <span class="text-zinc-500 block text-[9px] uppercase">PARAMETER UTAMA</span>
-                <span class="text-white font-bold">${project.stats[0].label}: ${project.stats[0].value}</span>
-              </div>
-              <div class="p-1.5 bg-zinc-900/60 border border-zinc-800 rounded">
-                <span class="text-zinc-500 block text-[9px] uppercase">KINERJA DESAIN</span>
-                <span class="text-amber-400 font-bold">${project.stats[3].label}: ${project.stats[3].value}</span>
-              </div>
+          <!-- Top CAD Title Strip -->
+          <div class="px-4 py-2 bg-zinc-900/90 border-b border-zinc-800 flex items-center justify-between font-mono text-[11px] text-zinc-400 z-10">
+            <div class="flex items-center space-x-2">
+              <span class="w-1.5 h-1.5 bg-sky-400 rounded-full animate-pulse"></span>
+              <span class="text-white font-bold">SHEET: ${project.sheetNo}</span>
+              <span class="text-zinc-600">|</span>
+              <span>SCALE ${project.scale}</span>
             </div>
+            <span class="text-sky-400 uppercase text-[10px] tracking-wider font-bold">${project.year}</span>
+          </div>
 
-            <div class="flex items-center justify-between text-xs font-mono pt-1">
-              <span class="text-zinc-400 flex items-center">
-                <svg class="w-3.5 h-3.5 mr-1 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                </svg>
-                Inspeksi Gambar CAD
+          <!-- Image Container with Scanline -->
+          <div class="relative w-full h-64 sm:h-72 overflow-hidden bg-black border-b border-zinc-800/80">
+            <div class="scanline"></div>
+            <img 
+              src="${project.heroImage}" 
+              alt="Proyek Arsitektur: ${project.title} - ${project.subtitle}" 
+              class="project-thumb w-full h-full object-cover transition-transform duration-700 ease-out brightness-90 group-hover:brightness-105 group-hover:scale-105"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent opacity-85 group-hover:opacity-60 transition-opacity"></div>
+            
+            <!-- Floating Badges on Image -->
+            <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between pointer-events-none z-10">
+              <span class="px-2.5 py-1 text-[11px] font-mono tracking-wider uppercase bg-zinc-950/90 text-sky-400 border border-sky-400/40 rounded backdrop-blur">
+                ${project.categoryLabel}
               </span>
-              <span class="text-sky-400 group-hover:translate-x-1 transition-transform inline-flex items-center font-bold">
-                Buka Lembar Detail &rarr;
+              <span class="text-[11px] font-mono text-zinc-300 bg-black/80 px-2 py-0.5 rounded border border-zinc-700">
+                ${project.location.split(',')[0]}
               </span>
             </div>
           </div>
-        </div>
-      </article>
+
+          <!-- Technical Dimension Line -->
+          <div class="px-6 pt-3 z-10">
+            <div class="dimension-line">
+              <span>◄ DIM: ${(30 + index * 12).toFixed(1)}m ►</span>
+              <span>LEVEL ±0.00</span>
+            </div>
+          </div>
+
+          <!-- Content Area with 3D Z-Pop -->
+          <div class="p-6 pt-3 flex-1 flex flex-col justify-between tilt-card-content z-10">
+            <div>
+              <h3 class="font-display text-xl md:text-2xl font-bold text-white group-hover:text-sky-300 transition-colors mb-1">
+                ${project.title}
+              </h3>
+              <p class="text-xs font-mono text-sky-400 tracking-wide mb-3">
+                ${project.subtitle}
+              </p>
+              <p class="text-zinc-300 text-sm leading-relaxed line-clamp-3 mb-4 font-light">
+                ${project.summary}
+              </p>
+            </div>
+
+            <!-- Bottom Technical Spec Block -->
+            <div class="pt-4 border-t border-zinc-800/80 space-y-3">
+              <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
+                <div class="p-2 bg-zinc-900/60 border border-zinc-800 rounded">
+                  <span class="text-zinc-500 block text-[9px] uppercase">PARAMETER</span>
+                  <span class="text-white font-bold">${project.stats[0].label}: ${project.stats[0].value}</span>
+                </div>
+                <div class="p-2 bg-zinc-900/60 border border-zinc-800 rounded">
+                  <span class="text-zinc-500 block text-[9px] uppercase">KINERJA</span>
+                  <span class="text-amber-400 font-bold">${project.stats[3].label}: ${project.stats[3].value}</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between text-xs font-mono pt-1">
+                <span class="text-zinc-400 flex items-center">
+                  <svg class="w-3.5 h-3.5 mr-1 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                  </svg>
+                  Inspeksi Gambar CAD
+                </span>
+                <span class="text-sky-400 group-hover:translate-x-1 transition-transform inline-flex items-center font-bold">
+                  Buka Lembar Detail &rarr;
+                </span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
     `;
   }).join('');
+
+  // Re-attach 3D tilt listeners
+  setup3DTiltCards();
 }
 
-// Setup Category Filter Buttons
 function setupFilterButtons() {
   const buttons = document.querySelectorAll("[data-filter]");
   buttons.forEach(btn => {
@@ -699,7 +1083,7 @@ function setupFilterButtons() {
 }
 
 // ==========================================
-// 7. MODAL DEEP-DIVE DENGAN INSPEKTOR CAD
+// 10. MODAL DEEP-DIVE DENGAN INSPEKTOR CAD
 // ==========================================
 let currentActiveProjectId = null;
 let currentActiveTab = "overview";
@@ -765,7 +1149,7 @@ function renderModalContent(project) {
   if (!container) return;
 
   container.innerHTML = `
-    <!-- Top Architectural Title Block (Kop Gambar Header) -->
+    <!-- Top Architectural Title Block -->
     <div class="px-6 py-3 border-b border-zinc-800 flex flex-wrap items-center justify-between bg-zinc-950/95 sticky top-0 z-20 font-mono text-xs">
       <div class="flex items-center space-x-3">
         <span class="px-2.5 py-1 bg-sky-950 text-sky-400 border border-sky-600 rounded font-bold">
@@ -794,7 +1178,7 @@ function renderModalContent(project) {
     <!-- Modal Main Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-12 min-h-[600px] overflow-hidden">
       
-      <!-- Workspace 8 Kolom: Tabbed Process Explorer -->
+      <!-- Workspace 8 Kolom -->
       <div class="lg:col-span-8 p-6 md:p-8 border-b lg:border-b-0 lg:border-r border-zinc-800 space-y-6 overflow-y-auto max-h-[82vh]">
         
         <div>
@@ -873,10 +1257,9 @@ function renderModalContent(project) {
         </div>
       </div>
 
-      <!-- Right Sidebar: Recruiter Info, Role Attribution & Software Specs (4 Kolom) -->
+      <!-- Right Sidebar (4 Kolom) -->
       <div class="lg:col-span-4 p-6 md:p-8 bg-zinc-950/80 space-y-6 overflow-y-auto max-h-[82vh] font-mono">
         
-        <!-- Recruiter Fast-Facts Callout -->
         <div class="border border-zinc-800 p-4 rounded bg-zinc-900/40">
           <h4 class="text-xs font-mono uppercase tracking-wider text-amber-400 mb-2 flex items-center">
             <span class="w-2 h-2 rounded-full bg-amber-400 mr-2 animate-pulse"></span>
@@ -887,7 +1270,6 @@ function renderModalContent(project) {
           </p>
         </div>
 
-        <!-- Technical Title Block Data (Kop Gambar Formal) -->
         <div class="border border-zinc-800 bg-black/60 rounded p-3 text-xs space-y-2">
           <div class="border-b border-zinc-800 pb-1 text-sky-400 font-bold uppercase text-[10px]">
             DATA DOKUMEN PROYEK (KOP GAMBAR)
@@ -900,7 +1282,6 @@ function renderModalContent(project) {
           </div>
         </div>
 
-        <!-- Authorship & Role -->
         <div class="space-y-3">
           <h4 class="text-xs uppercase tracking-wider text-zinc-400">Atribusi & Peran Desain</h4>
           <div class="p-3 bg-zinc-900/60 border border-zinc-800/80 rounded space-y-2 text-xs">
@@ -915,7 +1296,6 @@ function renderModalContent(project) {
           </div>
         </div>
 
-        <!-- Software Stack Used -->
         <div class="space-y-3">
           <h4 class="text-xs uppercase tracking-wider text-zinc-400">Software & Tools Digunakan</h4>
           <div class="flex flex-wrap gap-2">
@@ -928,7 +1308,6 @@ function renderModalContent(project) {
           </div>
         </div>
 
-        <!-- Direct Contact Action -->
         <div class="pt-4 border-t border-zinc-800 space-y-3">
           <h4 class="text-xs uppercase tracking-wider text-zinc-400">Tertarik Mengundang Wawancara?</h4>
           <a 
@@ -979,7 +1358,6 @@ function renderTabBody(project, tabKey) {
     `;
   }
 
-  // Gallery tabs (diagrams, drawings, renders)
   return `
     <div class="space-y-4">
       <div>
@@ -990,7 +1368,7 @@ function renderTabBody(project, tabKey) {
       <div class="space-y-6 pt-2">
         ${tab.images.map((img, i) => `
           <figure class="border border-zinc-800 bg-zinc-900/50 rounded overflow-hidden">
-            <div class="relative max-h-[500px] overflow-hidden bg-black flex items-center justify-center crosshair-target group">
+            <div class="relative max-h-[500px] overflow-hidden bg-black flex items-center justify-center group">
               <img 
                 src="${img.url}" 
                 alt="${img.caption}" 
@@ -1032,7 +1410,7 @@ function setupKeyboardShortcuts() {
 }
 
 // ==========================================
-// 8. RECRUITER ACTIONS (COPY EMAIL & CV DOWNLOAD)
+// 11. RECRUITER ACTIONS (COPY EMAIL & CV DOWNLOAD)
 // ==========================================
 function setupRecruiterActions() {
   const copyBtn = document.getElementById("copy-email-btn");
@@ -1147,7 +1525,7 @@ function showToast(message) {
 }
 
 // ==========================================
-// 9. DOM INITIALIZATION
+// 12. INITIALIZATION ON DOM READY
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
   renderProjects("all");
@@ -1157,4 +1535,11 @@ document.addEventListener("DOMContentLoaded", () => {
   setupKeyboardShortcuts();
   setupCadHud();
   setupBiophilicSimulator();
+  setup3DTiltCards();
+
+  // Initialize Three.js 3D Model
+  setTimeout(initThreeJsModel, 100);
+
+  // Initialize GSAP Motion
+  setTimeout(setupGsapAnimations, 200);
 });

@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Steven Nata, S.Ars | Architectural Portfolio & Technical Works — UNTAR</title>
+  <title>Steven Nata, S.Ars | Architectural Portfolio & Spatial Works — UNTAR</title>
   
-  <meta name="description" content="Portofolio arsitektur teknis Steven Nata, S.Ars, lulusan Jurusan Arsitektur Universitas Tarumanagara (UNTAR). Spesialisasi Placemaking ruang publik, Desain Biofilik, BIM Revit LOD 350. Penulis jurnal ilmiah STUPA 2024.">
-  <meta name="keywords" content="Steven Nata, Steven Nata Arsitek, Gunsar Hub, Portofolio Arsitektur, Arsitektur UNTAR, Universitas Tarumanagara, Placemaking, Desain Biofilik, Jurnal STUPA, BIM Revit, Jakarta">
+  <meta name="description" content="Portofolio arsitektur interaktif Steven Nata, S.Ars, lulusan Jurusan Arsitektur Universitas Tarumanagara (UNTAR). Spesialisasi Placemaking ruang publik, Desain Biofilik, dan BIM Revit LOD 350. Penulis jurnal ilmiah STUPA 2024.">
+  <meta name="keywords" content="Steven Nata, Steven Nata Arsitek, Gunsar Hub, Portofolio Arsitektur, Arsitektur UNTAR, Universitas Tarumanagara, Placemaking, Desain Biofilik, Jurnal STUPA, BIM Revit, 3D Architecture, Jakarta">
   <meta name="author" content="Steven Nata, S.Ars">
 
   <!-- Open Graph / Meta Sosial -->
   <meta property="og:title" content="Steven Nata, S.Ars | Architectural Portfolio — UNTAR">
   <meta property="og:description" content="Koleksi proyek terpilih arsitektur: GUNSAR HUB Placemaking Gunung Sahari (Publikasi Jurnal STUPA), Sayembara IAI, Hunian Tropis BSD, dan Riset Fabrikasi Digital.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80">
+  <meta property="og:image" content="https://axelallisonofficial08.github.io/TestPort/assets/profile.jpg">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -24,8 +24,8 @@
         extend: {
           colors: {
             blueprint: '#38bdf8',
-            obsidian: '#080a0f',
-            carbon: '#0f131c',
+            obsidian: '#05070b',
+            carbon: '#0a0e17',
             cadline: 'rgba(255, 255, 255, 0.12)'
           }
         }
@@ -33,13 +33,23 @@
     }
   </script>
 
-  <!-- Custom Stylesheet -->
+  <!-- Three.js (3D Spatial Graphics) & GSAP (Motion Animation Engine) CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Custom Antigravity Spatial Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-obsidian text-zinc-200 antialiased selection:bg-sky-500 selection:text-black">
+<body class="bg-obsidian text-zinc-200 antialiased selection:bg-sky-500 selection:text-black relative">
+
+  <!-- Ambient Glowing Background Lights for Spatial Depth -->
+  <div class="ambient-glow w-[600px] h-[600px] bg-sky-600/15 top-[-100px] left-[-150px]"></div>
+  <div class="ambient-glow w-[500px] h-[500px] bg-amber-500/10 top-[400px] right-[-100px]"></div>
+  <div class="ambient-glow w-[700px] h-[700px] bg-emerald-500/10 top-[1200px] left-[20%]"></div>
 
   <!-- Top Real-time CAD HUD Status Bar -->
-  <aside id="cad-hud" class="w-full bg-black/90 border-b border-zinc-800 text-[11px] px-4 py-1.5 flex flex-wrap items-center justify-between z-50 text-zinc-400 border-t-2 border-t-sky-500" aria-label="Status CAD Overlay">
+  <aside id="cad-hud" class="w-full bg-black/90 border-b border-zinc-800 text-[11px] px-4 py-1.5 flex flex-wrap items-center justify-between z-50 text-zinc-400 border-t-2 border-t-sky-500 sticky top-0" aria-label="Status CAD Overlay">
     <div class="flex items-center space-x-3">
       <span class="flex items-center text-sky-400 font-bold">
         <span class="w-2 h-2 rounded-full bg-sky-400 mr-1.5 animate-ping"></span>
@@ -50,7 +60,7 @@
       </span>
     </div>
 
-    <div class="flex items-center space-x-4 pointer-events-auto mt-1 sm:mt-0">
+    <div class="flex items-center space-x-4 pointer-events-auto mt-1 sm:mt-0 font-mono">
       <span id="hud-mode-text" class="text-[10px] text-zinc-500 hidden md:inline">MODE: CAD OBSIDIAN SLATE</span>
 
       <!-- Blueprint Theme Switcher -->
@@ -79,12 +89,12 @@
   </aside>
 
   <!-- Sticky Top Technical Navigation Bar -->
-  <header class="sticky top-0 z-40 bg-obsidian/95 backdrop-blur-md border-b border-zinc-800">
+  <header class="sticky top-[31px] z-40 bg-black/80 backdrop-blur-xl border-b border-zinc-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
       <!-- Logo & Academic Identity -->
       <a href="#" class="flex items-center space-x-3 group" onmouseenter="playCadSound('tick')">
-        <div class="w-9 h-9 border border-sky-400 bg-sky-950/60 flex items-center justify-center font-mono text-xs font-bold text-sky-400 group-hover:bg-sky-500 group-hover:text-black transition-colors relative corner-marks">
+        <div class="w-9 h-9 border border-sky-400 bg-sky-950/60 flex items-center justify-center font-mono text-xs font-bold text-sky-400 group-hover:bg-sky-500 group-hover:text-black transition-colors relative corner-marks shadow-[0_0_15px_rgba(56,189,248,0.3)]">
           SN
         </div>
         <div>
@@ -110,7 +120,7 @@
           href="https://www.linkedin.com/in/steven-nata-aa8a50403/"
           target="_blank"
           rel="noopener noreferrer"
-          class="hidden sm:inline-flex items-center px-3 py-1.5 border border-sky-500/50 bg-sky-950/50 hover:bg-sky-900/60 text-sky-300 font-mono text-xs rounded transition-colors"
+          class="hidden sm:inline-flex items-center px-3 py-1.5 border border-sky-500/50 bg-sky-950/50 hover:bg-sky-900/60 text-sky-300 font-mono text-xs rounded transition-colors shadow-[0_0_15px_rgba(56,189,248,0.2)]"
           title="Buka Profil LinkedIn Steven Nata"
           onmouseenter="playCadSound('tick')"
         >
@@ -123,7 +133,7 @@
         <button 
           id="copy-email-btn"
           type="button"
-          class="hidden sm:inline-flex items-center px-3 py-1.5 border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-mono text-xs rounded transition-colors"
+          class="hidden sm:inline-flex items-center px-3 py-1.5 border border-zinc-700 bg-zinc-900/80 hover:bg-zinc-800 text-zinc-300 font-mono text-xs rounded transition-colors"
           title="Salin Email Steven Nata ke Clipboard"
           onmouseenter="playCadSound('tick')"
         >
@@ -136,7 +146,7 @@
         <a 
           id="download-cv-btn"
           href="#"
-          class="inline-flex items-center px-3.5 py-1.5 bg-sky-500 hover:bg-sky-400 text-black font-semibold font-mono text-xs rounded transition-colors"
+          class="inline-flex items-center px-3.5 py-1.5 bg-sky-500 hover:bg-sky-400 text-black font-semibold font-mono text-xs rounded transition-colors shadow-[0_0_20px_rgba(56,189,248,0.5)]"
           onmouseenter="playCadSound('tick')"
         >
           <svg class="w-3.5 h-3.5 mr-1.5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -150,59 +160,58 @@
   </header>
 
   <main>
-    <!-- Hero Section: Blueprint & Brutalist Introduction -->
-    <section class="relative bg-cad-grid bg-cad-major border-b border-zinc-800 py-16 md:py-24 overflow-hidden">
-      <!-- Ambient light effect -->
-      <div class="absolute top-0 right-1/4 w-96 h-96 bg-sky-500/5 rounded-full blur-3xl pointer-events-none"></div>
-
+    <!-- Hero Section: Spatial 3D Architecture & Blueprint Introduction -->
+    <section class="relative bg-cad-grid bg-cad-major border-b border-zinc-800/80 py-16 md:py-24 overflow-hidden">
+      
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <!-- Recruiter Status Pill -->
-        <div class="inline-flex items-center space-x-2 px-3.5 py-1 bg-zinc-900/90 border border-zinc-800 rounded-full font-mono text-xs text-zinc-300 mb-6">
+        <div class="hero-anim-item inline-flex items-center space-x-2 px-3.5 py-1.5 bg-zinc-900/90 border border-zinc-800 rounded-full font-mono text-xs text-zinc-300 mb-6 glass-panel">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
           <span class="w-2 h-2 rounded-full bg-emerald-400 -ml-4"></span>
-          <span>Open for Hiring: Junior Architect / Project Architect / BIM Modeler</span>
+          <span>Open for Opportunities: Junior Architect / Project Architect / BIM Modeler</span>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           
-          <div class="lg:col-span-8 space-y-6">
+          <!-- Left Column: Architectural Dossier (7 Cols) -->
+          <div class="lg:col-span-7 space-y-6">
             <div class="space-y-2">
-              <span class="font-mono text-xs text-sky-400 uppercase tracking-widest block">
-                // ARCHITECTURAL DOSSIER & SELECTED PORTFOLIO [UNTAR 2019-2024]
+              <span class="hero-anim-item font-mono text-xs text-sky-400 uppercase tracking-widest block">
+                // ARCHITECTURAL DOSSIER & SPATIAL WORKS [UNTAR 2019-2024]
               </span>
-              <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.05]">
+              <h1 class="hero-anim-item font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.05]">
                 STEVEN NATA, <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-sky-300 to-amber-300">S.Ars</span>
               </h1>
-              <p class="font-mono text-base md:text-lg text-zinc-400">
+              <p class="hero-anim-item font-mono text-base md:text-lg text-zinc-400">
                 Sarjana Arsitektur — Universitas Tarumanagara (UNTAR), Jakarta (NIM: 315190059)
               </p>
             </div>
 
-            <p class="text-zinc-300 text-base md:text-lg leading-relaxed max-w-2xl font-light">
+            <p class="hero-anim-item text-zinc-300 text-base md:text-lg leading-relaxed max-w-2xl font-light">
               Mewujudkan arsitektur publik yang berpusat pada komunitas melalui pendekatan <strong class="text-white font-medium">Placemaking</strong>, 
               efisiensi iklim mikro dengan <strong class="text-white font-medium">Desain Biofilik (Biophilic Design)</strong>, serta ketelitian 
-              <strong class="text-white font-medium">Building Information Modeling (BIM Revit)</strong> untuk menjawab degradasi kawasan komersial perkotaan Jakarta.
+              <strong class="text-white font-medium">Building Information Modeling (BIM Revit LOD 350)</strong> untuk menjawab degradasi kawasan komersial perkotaan Jakarta.
             </p>
 
             <!-- Key Recruiter Metrics & Highlights -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-              <div class="p-3 bg-zinc-900/70 border border-zinc-800 rounded relative corner-marks">
+            <div class="hero-anim-item grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+              <div class="p-3 bg-zinc-900/60 border border-zinc-800 rounded relative corner-marks glass-panel">
                 <span class="font-mono text-[10px] text-zinc-400 uppercase block">Publikasi Riset</span>
                 <span class="font-mono font-bold text-white text-lg block text-sky-400">Jurnal STUPA</span>
                 <span class="text-[11px] text-zinc-400 font-mono">Vol. 6 No. 2 (2024)</span>
               </div>
-              <div class="p-3 bg-zinc-900/70 border border-zinc-800 rounded relative corner-marks">
+              <div class="p-3 bg-zinc-900/60 border border-zinc-800 rounded relative corner-marks glass-panel">
                 <span class="font-mono text-[10px] text-zinc-400 uppercase block">Skripsi Unggulan</span>
                 <span class="font-mono font-bold text-white text-lg block text-amber-400">GUNSAR HUB</span>
                 <span class="text-[11px] text-zinc-400 font-mono">Placemaking Jakarta</span>
               </div>
-              <div class="p-3 bg-zinc-900/70 border border-zinc-800 rounded relative corner-marks">
+              <div class="p-3 bg-zinc-900/60 border border-zinc-800 rounded relative corner-marks glass-panel">
                 <span class="font-mono text-[10px] text-zinc-400 uppercase block">Spesialisasi BIM</span>
                 <span class="font-mono font-bold text-white text-lg block text-white">LOD 350</span>
                 <span class="text-[11px] text-zinc-400 font-mono">Revit + Dynamo Script</span>
               </div>
-              <div class="p-3 bg-zinc-900/70 border border-zinc-800 rounded relative corner-marks">
+              <div class="p-3 bg-zinc-900/60 border border-zinc-800 rounded relative corner-marks glass-panel">
                 <span class="font-mono text-[10px] text-zinc-400 uppercase block">Status Ketersediaan</span>
                 <span class="font-mono font-bold text-white text-lg block text-emerald-400">Siap Kerja</span>
                 <span class="text-[11px] text-zinc-400 font-mono">Jakarta & Sekitarnya</span>
@@ -210,67 +219,127 @@
             </div>
 
             <!-- CTA Button Group -->
-            <div class="flex flex-wrap gap-3 pt-4">
+            <div class="hero-anim-item flex flex-wrap gap-3 pt-4">
               <a 
                 href="#proyek" 
-                class="px-6 py-3 bg-white hover:bg-zinc-200 text-black font-semibold font-mono text-xs tracking-wider uppercase rounded transition-colors inline-flex items-center"
+                class="px-6 py-3.5 bg-white hover:bg-zinc-200 text-black font-semibold font-mono text-xs tracking-wider uppercase rounded transition-colors inline-flex items-center shadow-[0_0_25px_rgba(255,255,255,0.3)]"
                 onmouseenter="playCadSound('tick')"
               >
                 Eksplorasi 5 Karya CAD/BIM &darr;
               </a>
               <a 
                 href="#simulator" 
-                class="px-6 py-3 bg-zinc-900 hover:bg-zinc-800 text-amber-400 border border-amber-500/50 font-mono text-xs tracking-wider uppercase rounded transition-colors inline-flex items-center"
+                class="px-6 py-3.5 bg-zinc-900/90 hover:bg-zinc-800 text-amber-400 border border-amber-500/50 font-mono text-xs tracking-wider uppercase rounded transition-colors inline-flex items-center glass-panel"
                 onmouseenter="playCadSound('tick')"
               >
                 Coba Simulator Biofilik &rarr;
               </a>
             </div>
 
-          </div>
-
-          <!-- Hero Right: Authentic Architectural Drawing Sheet & Title Block -->
-          <div class="lg:col-span-4">
-            <div class="title-block rounded p-5 shadow-2xl relative corner-marks">
-              
-              <!-- Technical Title Bar -->
-              <div class="border-b border-cad pb-3 mb-4 flex items-center justify-between text-zinc-400 font-mono text-xs">
-                <span>[DRAWING SHEET NO. 01/A]</span>
-                <span class="text-sky-400">SCALE: 1:100 @ A1</span>
-              </div>
-
-              <!-- Profile Avatar / Portrait placeholder with architectural blueprint overlay -->
-              <div class="relative w-full aspect-square bg-black border border-cad rounded overflow-hidden mb-4 group crosshair-target">
+            <!-- Profile Summary Card with Clean Portrait -->
+            <div class="hero-anim-item p-4 bg-zinc-950/70 border border-zinc-800 rounded-lg glass-panel flex flex-col sm:flex-row items-center gap-4">
+              <div class="relative w-24 h-24 rounded-lg overflow-hidden border-2 border-sky-400/60 flex-shrink-0 shadow-[0_0_20px_rgba(56,189,248,0.35)]">
                 <img 
                   id="profile-img"
-                  src="assets/profile.jpg?v=2" 
-                  onerror="this.onerror=null; this.src='profile.jpg?v=2';"
+                  src="assets/profile.jpg?v=3" 
+                  onerror="this.onerror=null; this.src='profile.jpg?v=3';"
                   alt="Potret Steven Nata, Sarjana Arsitektur UNTAR"
-                  class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  class="w-full h-full object-cover object-top"
                 />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+              </div>
+              <div class="space-y-1 text-center sm:text-left flex-1">
+                <div class="flex items-center justify-center sm:justify-between gap-2">
+                  <div class="font-display font-bold text-white text-base">Steven Nata, S.Ars</div>
+                  <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-950/80 text-sky-300 border border-sky-600/40 font-semibold">VERIFIED UNTAR</span>
+                </div>
+                <p class="text-xs text-zinc-400 font-mono">
+                  Alumni Arsitektur Universitas Tarumanagara (NIM: 315190059). Pembimbing: Agnatasya Listianti Mustaram, S.T., M.Sc.
+                </p>
+                <div class="text-[11px] font-mono text-sky-400 flex flex-wrap justify-center sm:justify-start gap-3 pt-1">
+                  <a href="https://www.linkedin.com/in/steven-nata-aa8a50403/" target="_blank" rel="noopener noreferrer" class="hover:underline flex items-center gap-1">
+                    <span>LinkedIn Profil</span> ↗
+                  </a>
+                  <span>•</span>
+                  <a href="mailto:stevennata.arch@gmail.com" class="hover:underline">stevennata.arch@gmail.com</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Interactive 3D Architecture Canvas (5 Cols) -->
+          <div class="lg:col-span-5">
+            <div class="border border-zinc-800 bg-zinc-950/80 rounded-lg shadow-2xl relative corner-marks overflow-hidden glass-panel">
+              
+              <!-- 3D Header Toolbar -->
+              <div class="px-4 py-2.5 bg-zinc-900/90 border-b border-zinc-800 flex items-center justify-between text-zinc-300 font-mono text-xs">
+                <div class="flex items-center space-x-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span class="text-sky-400 font-bold">3D MODEL: GUNSAR HUB</span>
+                </div>
+                <span class="text-[10px] text-zinc-500">DRAG TO ORBIT • SCROLL ZOOM</span>
+              </div>
+
+              <!-- Three.js Canvas Container -->
+              <div class="relative w-full h-80 sm:h-96 bg-black/60">
+                <div id="hero-3d-container" class="w-full h-full">
+                  <!-- Injected via Three.js in script.js -->
+                </div>
                 <div class="scanline"></div>
-                <div class="absolute bottom-2 left-2 right-2 p-2.5 bg-black/90 backdrop-blur font-mono text-[11px] text-zinc-300 border border-zinc-800">
-                  <div class="text-sky-400 font-bold">STEVEN NATA, S.Ars</div>
-                  <div class="text-zinc-400 text-[10px]">Alumni Arsitektur UNTAR (NIM: 315190059)</div>
+
+                <!-- 3D Overlay Interactive Toolbar -->
+                <div class="absolute bottom-3 left-3 right-3 flex flex-wrap gap-1.5 justify-center z-20 pointer-events-auto">
+                  <button 
+                    id="btn-3d-wireframe" 
+                    onclick="toggle3DWireframe()" 
+                    class="model-control-btn"
+                    title="Beralih ke tampilan garis CAD Wireframe"
+                  >
+                    WIREFRAME
+                  </button>
+                  <button 
+                    id="btn-3d-explode" 
+                    onclick="toggle3DExplode()" 
+                    class="model-control-btn"
+                    title="Uraikan pelat lantai secara vertikal (Antigravity Explode)"
+                  >
+                    EXPLODE FLOORS
+                  </button>
+                  <button 
+                    id="btn-3d-light" 
+                    onclick="cycle3DLighting()" 
+                    class="model-control-btn"
+                    title="Ubah kondisi pencahayaan matahari (Day, Dusk, Night)"
+                  >
+                    LIGHT: DAY
+                  </button>
+                  <button 
+                    onclick="reset3DCamera()" 
+                    class="model-control-btn"
+                    title="Kembalikan orientasi kamera ke isometrik awal"
+                  >
+                    RESET CAM
+                  </button>
                 </div>
               </div>
 
-              <!-- Authentic Kop Gambar Technical Cells -->
-              <div class="grid grid-cols-2 border-t border-l border-zinc-800 text-[11px] font-mono">
-                <div class="title-block-cell">
-                  <span class="text-zinc-500 text-[9px] block">INSTITUSI</span>
-                  <span class="text-white font-medium">Univ. Tarumanagara</span>
+              <!-- Kop Gambar Specs Block -->
+              <div class="grid grid-cols-2 border-t border-zinc-800 text-[11px] font-mono bg-black/70">
+                <div class="title-block-cell p-2">
+                  <span class="text-zinc-500 text-[9px] block">TIPOLOGI</span>
+                  <span class="text-white font-medium">Placemaking & Biofilik</span>
                 </div>
-                <div class="title-block-cell">
-                  <span class="text-zinc-500 text-[9px] block">PROGRAM STUDI</span>
-                  <span class="text-white font-medium">S1 Arsitektur</span>
+                <div class="title-block-cell p-2">
+                  <span class="text-zinc-500 text-[9px] block">LOKASI STUDI</span>
+                  <span class="text-white font-medium">Gunung Sahari, Jkt Pusat</span>
                 </div>
-                <div class="title-block-cell">
-                  <span class="text-zinc-500 text-[9px] block">DOSEN PEMBIMBING</span>
-                  <span class="text-sky-400 text-[10px]">Agnatasya L.M., M.Sc.</span>
+                <div class="title-block-cell p-2">
+                  <span class="text-zinc-500 text-[9px] block">STANDAR PEMODELAN</span>
+                  <span class="text-sky-400 text-[10px]">Autodesk Revit LOD 350</span>
                 </div>
-                <div class="title-block-cell">
-                  <span class="text-zinc-500 text-[9px] block">STATUS RISET</span>
+                <div class="title-block-cell p-2">
+                  <span class="text-zinc-500 text-[9px] block">PUBLIKASI RESMI</span>
                   <span class="text-emerald-400 text-[10px]">Jurnal STUPA (2024)</span>
                 </div>
               </div>
@@ -283,18 +352,18 @@
       </div>
     </section>
 
-    <!-- Projects Section: Curated Works & Recruiter Deep Dive -->
-    <section id="proyek" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-zinc-800">
+    <!-- Projects Section: Curated Works with 3D Tilt & Glassmorphism -->
+    <section id="proyek" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-zinc-800/80">
       
       <!-- Section Header & Filter Navigation -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
         <div>
           <span class="font-mono text-xs text-sky-400 uppercase tracking-widest block mb-1">// DOKUMENTASI GAMBAR KERJA & STUDI KASUS</span>
           <h2 class="font-display text-3xl sm:text-5xl font-bold text-white tracking-tight">
             Koleksi Karya Arsitektur
           </h2>
-          <p class="text-zinc-400 text-sm max-w-xl mt-2 font-mono">
-            Setiap lembar proyek dilengkapi parameter teknis, gambar denah & potongan LOD 350, diagram transformasi massa, serta studi integrasi biofilik.
+          <p class="text-zinc-400 text-sm max-w-xl mt-2 font-mono font-light">
+            Setiap lembar proyek dilengkapi parameter teknis, gambar denah & potongan LOD 350, diagram transformasi massa, serta studi integrasi biofilik. Arahkan mouse untuk melihat efek perspektif 3D spasial.
           </p>
         </div>
 
@@ -302,73 +371,73 @@
         <div class="flex flex-wrap gap-2" role="group" aria-label="Filter Kategori Proyek">
           <button 
             data-filter="all" 
-            class="px-3.5 py-1.5 font-mono text-xs rounded transition-colors bg-sky-500 text-black border border-sky-400 font-semibold"
+            class="px-3.5 py-1.5 font-mono text-xs rounded transition-colors bg-sky-500 text-black border border-sky-400 font-semibold shadow-[0_0_15px_rgba(56,189,248,0.4)]"
           >
             Semua (5)
           </button>
           <button 
             data-filter="akademik" 
-            class="px-3.5 py-1.5 font-mono text-xs rounded transition-colors bg-zinc-900/80 text-zinc-300 border border-zinc-700 hover:border-zinc-500"
+            class="px-3.5 py-1.5 font-mono text-xs rounded transition-colors bg-zinc-900/80 text-zinc-300 border border-zinc-700 hover:border-zinc-500 glass-panel"
           >
             Tugas Akhir UNTAR
           </button>
           <button 
             data-filter="sayembara" 
-            class="px-3.5 py-1.5 font-mono text-xs rounded transition-colors bg-zinc-900/80 text-zinc-300 border border-zinc-700 hover:border-zinc-500"
+            class="px-3.5 py-1.5 font-mono text-xs rounded transition-colors bg-zinc-900/80 text-zinc-300 border border-zinc-700 hover:border-zinc-500 glass-panel"
           >
             Sayembara IAI
           </button>
           <button 
             data-filter="residential" 
-            class="px-3.5 py-1.5 font-mono text-xs rounded transition-colors bg-zinc-900/80 text-zinc-300 border border-zinc-700 hover:border-zinc-500"
+            class="px-3.5 py-1.5 font-mono text-xs rounded transition-colors bg-zinc-900/80 text-zinc-300 border border-zinc-700 hover:border-zinc-500 glass-panel"
           >
             Hunian Tropis
           </button>
           <button 
             data-filter="komersial" 
-            class="px-3.5 py-1.5 font-mono text-xs rounded transition-colors bg-zinc-900/80 text-zinc-300 border border-zinc-700 hover:border-zinc-500"
+            class="px-3.5 py-1.5 font-mono text-xs rounded transition-colors bg-zinc-900/80 text-zinc-300 border border-zinc-700 hover:border-zinc-500 glass-panel"
           >
             Komersial
           </button>
           <button 
             data-filter="riset" 
-            class="px-3.5 py-1.5 font-mono text-xs rounded transition-colors bg-zinc-900/80 text-zinc-300 border border-zinc-700 hover:border-zinc-500"
+            class="px-3.5 py-1.5 font-mono text-xs rounded transition-colors bg-zinc-900/80 text-zinc-300 border border-zinc-700 hover:border-zinc-500 glass-panel"
           >
             Riset Parametrik
           </button>
         </div>
       </div>
 
-      <!-- Project Cards Grid (Populated dynamically by script.js) -->
-      <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Project Cards Grid (Populated dynamically by script.js with 3D Tilt) -->
+      <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- Rendered via script.js -->
       </div>
 
     </section>
 
     <!-- NEW INTERACTIVE WIDGET: Biophilic & Sun-Path Microclimate Simulator (GUNSAR HUB) -->
-    <section id="simulator" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-zinc-800 bg-zinc-950/40 relative overflow-hidden">
+    <section id="simulator" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-zinc-800/80 relative overflow-hidden">
       
       <div class="mb-10">
-        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-950/80 border border-amber-600/80 text-amber-300 rounded font-mono text-xs uppercase mb-3">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-950/80 border border-amber-600/80 text-amber-300 rounded font-mono text-xs uppercase mb-3 glass-panel">
           <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
           <span>Interactive Computational Widget</span>
         </div>
         <h2 class="font-display text-3xl sm:text-4xl font-bold text-white tracking-tight">
           Simulator Mikroklimat & Lintasan Matahari (GUNSAR HUB)
         </h2>
-        <p class="text-zinc-400 text-sm max-w-2xl mt-2 font-mono">
+        <p class="text-zinc-400 text-sm max-w-2xl mt-2 font-mono font-light">
           Uji langsung metodologi skripsi Steven Nata: Geser jam matahari, kerapatan vegetasi, dan bukaan ventilasi untuk mengamati kalkulasi reduksi beban panas perkotaan secara real-time.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-black/70 border border-zinc-800 p-6 md:p-8 rounded-lg corner-marks">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-black/60 border border-zinc-800/80 p-6 md:p-8 rounded-lg corner-marks glass-panel">
         
         <!-- Controls Column (5 Cols) -->
         <div class="lg:col-span-5 space-y-6 font-mono text-xs">
           
           <!-- Slider 1: Hour of Day -->
-          <div class="space-y-2 p-3 bg-zinc-900/60 border border-zinc-800 rounded">
+          <div class="space-y-2 p-3.5 bg-zinc-900/60 border border-zinc-800 rounded">
             <div class="flex justify-between items-center">
               <span class="text-zinc-300 font-bold">Waktu Matahari Jakarta:</span>
               <span id="sim-sun-label" class="text-amber-400 font-bold bg-amber-950/80 px-2 py-0.5 rounded border border-amber-800">12:00 WIB</span>
@@ -391,7 +460,7 @@
           </div>
 
           <!-- Slider 2: Canopy Density -->
-          <div class="space-y-2 p-3 bg-zinc-900/60 border border-zinc-800 rounded">
+          <div class="space-y-2 p-3.5 bg-zinc-900/60 border border-zinc-800 rounded">
             <div class="flex justify-between items-center">
               <span class="text-zinc-300 font-bold">Kerapatan Kanopi Biofilik:</span>
               <span id="sim-canopy-label" class="text-emerald-400 font-bold bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800">75%</span>
@@ -414,7 +483,7 @@
           </div>
 
           <!-- Slider 3: Wind Aperture -->
-          <div class="space-y-2 p-3 bg-zinc-900/60 border border-zinc-800 rounded">
+          <div class="space-y-2 p-3.5 bg-zinc-900/60 border border-zinc-800 rounded">
             <div class="flex justify-between items-center">
               <span class="text-zinc-300 font-bold">Kecepatan Angin Koridor Alami:</span>
               <span id="sim-wind-label" class="text-sky-400 font-bold bg-sky-950/80 px-2 py-0.5 rounded border border-sky-800">2.5 m/s</span>
@@ -504,13 +573,13 @@
     </section>
 
     <!-- Technical Competencies & Software Matrix Section -->
-    <section id="kompetensi" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-zinc-800">
+    <section id="kompetensi" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-zinc-800/80">
       <div class="mb-12">
         <span class="font-mono text-xs text-sky-400 uppercase tracking-widest block mb-1">// TECHNICAL TOOLKIT & PROFICIENCY</span>
         <h2 class="font-display text-3xl sm:text-4xl font-bold text-white tracking-tight">
           Keahlian Perangkat Lunak & Alur Kerja Arsitektural
         </h2>
-        <p class="text-zinc-400 text-sm max-w-2xl mt-2">
+        <p class="text-zinc-400 text-sm max-w-2xl mt-2 font-mono font-light">
           Dilatih menggunakan standar industri terkini, mulai dari dokumentasi BIM multi-disiplin hingga komputasi algoritma dan simulasi termal biofilik.
         </p>
       </div>
@@ -518,7 +587,7 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         <!-- Category 1: BIM & Documentation -->
-        <div class="p-6 bg-zinc-950 border border-zinc-800 rounded relative corner-marks">
+        <div class="p-6 bg-zinc-950/80 border border-zinc-800 rounded relative corner-marks glass-panel">
           <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs uppercase mb-4">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
@@ -547,7 +616,7 @@
         </div>
 
         <!-- Category 2: 3D Computational & Simulation -->
-        <div class="p-6 bg-zinc-950 border border-zinc-800 rounded relative corner-marks">
+        <div class="p-6 bg-zinc-950/80 border border-zinc-800 rounded relative corner-marks glass-panel">
           <div class="flex items-center space-x-2 text-amber-400 font-mono text-xs uppercase mb-4">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path>
@@ -576,7 +645,7 @@
         </div>
 
         <!-- Category 3: Visual Rendering & Post-Production -->
-        <div class="p-6 bg-zinc-950 border border-zinc-800 rounded relative corner-marks">
+        <div class="p-6 bg-zinc-950/80 border border-zinc-800 rounded relative corner-marks glass-panel">
           <div class="flex items-center space-x-2 text-emerald-400 font-mono text-xs uppercase mb-4">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -608,7 +677,7 @@
     </section>
 
     <!-- Academic Background & Philosophy Section (UNTAR) -->
-    <section id="tentang" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-zinc-800">
+    <section id="tentang" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-zinc-800/80">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         
         <div class="lg:col-span-6 space-y-6">
@@ -616,14 +685,14 @@
           <h2 class="font-display text-3xl sm:text-4xl font-bold text-white tracking-tight">
             Pendidikan Arsitektur di Universitas Tarumanagara
           </h2>
-          <p class="text-zinc-300 text-sm sm:text-base leading-relaxed">
+          <p class="text-zinc-300 text-sm sm:text-base leading-relaxed font-light">
             Menempuh pendidikan sarjana di Program Studi Arsitektur Universitas Tarumanagara (NIM: 315190059, Lulusan 2024) membekali saya dengan pemahaman mendalam mengenai tantangan urban Jakarta, pentingnya revitalisasi kawasan terlantar, serta integrasi teknologi komputasional dalam perancangan.
           </p>
-          <p class="text-zinc-300 text-sm sm:text-base leading-relaxed">
+          <p class="text-zinc-300 text-sm sm:text-base leading-relaxed font-light">
             Karya tugas akhir saya yang berjudul <strong class="text-white font-medium">"GUNSAR HUB: Titik Temu Komunitas untuk Menghidupkan Kawasan Gunung Sahari Melalui Placemaking"</strong> di bawah bimbingan <strong class="text-white font-medium">Agnatasya Listianti Mustaram, S.T., M.Sc.</strong> telah dipublikasikan secara resmi dalam <strong class="text-white font-medium">Jurnal Sains, Teknologi, Urban, Perancangan, Arsitektur (STUPA)</strong>, Vol. 6 No. 2 pada Oktober 2024.
           </p>
 
-          <div class="p-4 bg-zinc-900/60 border-l-2 border-sky-400 rounded-r space-y-2">
+          <div class="p-4 bg-zinc-900/60 border-l-2 border-sky-400 rounded-r space-y-2 glass-panel">
             <h4 class="font-mono text-xs uppercase tracking-wider text-sky-400 font-bold">Pencapaian & Jejak Akademis:</h4>
             <ul class="space-y-1.5 text-xs text-zinc-300 font-mono">
               <li>• Penulis Artikel Jurnal STUPA (2024): <em>"Penerapan Desain Biofilik Pada Perancangan Ruang Publik di Kawasan Gunung Sahari"</em>.</li>
@@ -634,27 +703,65 @@
         </div>
 
         <div class="lg:col-span-6 space-y-4">
-          <div class="border border-zinc-800 p-6 bg-zinc-950 rounded">
+          <!-- Architect Dossier Card -->
+          <div class="border border-sky-500/30 p-5 bg-zinc-950/90 rounded-lg glass-panel relative corner-marks flex flex-col sm:flex-row gap-5 items-center">
+            <div class="relative w-28 h-28 rounded-lg overflow-hidden border-2 border-sky-400/70 flex-shrink-0 shadow-[0_0_25px_rgba(56,189,248,0.3)]">
+              <img 
+                src="assets/profile.jpg?v=3" 
+                onerror="this.onerror=null; this.src='profile.jpg?v=3';"
+                alt="Steven Nata, S.Ars - Sarjana Arsitektur Universitas Tarumanagara"
+                class="w-full h-full object-cover object-top"
+              />
+              <span class="absolute bottom-1 right-1 px-1.5 py-0.5 bg-black/80 text-[9px] font-mono text-emerald-400 border border-emerald-500/50 rounded">S.Ars</span>
+            </div>
+            <div class="space-y-1 text-center sm:text-left flex-1">
+              <span class="text-[10px] font-mono text-sky-400 uppercase tracking-widest block">// DOKUMEN IDENTITAS AKADEMIK</span>
+              <h3 class="font-display font-bold text-white text-lg">Steven Nata, S.Ars</h3>
+              <p class="text-xs text-zinc-300 font-mono">
+                Universitas Tarumanagara (UNTAR), Jakarta<br>
+                NIM: <span class="text-white font-semibold">315190059</span> • Angkatan 2019 - Lulus 2024
+              </p>
+              <div class="pt-2 flex flex-wrap gap-2 justify-center sm:justify-start">
+                <a 
+                  href="https://www.linkedin.com/in/steven-nata-aa8a50403/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="px-2.5 py-1 text-[11px] font-mono bg-sky-950/80 hover:bg-sky-900 border border-sky-600/50 text-sky-300 rounded inline-flex items-center transition-colors"
+                >
+                  <svg class="w-3 h-3 mr-1 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                  LinkedIn Profil ↗
+                </a>
+                <a 
+                  href="mailto:stevennata.arch@gmail.com"
+                  class="px-2.5 py-1 text-[11px] font-mono bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 rounded inline-flex items-center transition-colors"
+                >
+                  Email Kontak ✉
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="border border-zinc-800 p-6 bg-zinc-950/80 rounded glass-panel">
             <h3 class="font-display font-bold text-white text-lg mb-3">Nilai Tambah untuk Recruiter & Studio Arsitektur:</h3>
             
             <div class="space-y-4 text-xs font-mono">
               <div class="p-3 bg-zinc-900/50 border border-zinc-800 rounded">
                 <span class="text-sky-400 block font-bold mb-1">01. Berorientasi Riset & Data Iklim Terukur:</span>
-                <p class="text-zinc-300 leading-relaxed font-sans">
+                <p class="text-zinc-300 leading-relaxed font-sans font-light">
                   Mampu menerapkan konsep biofilik dan kenyamanan termal perkotaan secara terukur dengan bantuan software simulasi pencahayaan dan angin (Ladybug/Honeybee).
                 </p>
               </div>
 
               <div class="p-3 bg-zinc-900/50 border border-zinc-800 rounded">
                 <span class="text-amber-400 block font-bold mb-1">02. Kesiapan Produksi Gambar BIM:</span>
-                <p class="text-zinc-300 leading-relaxed font-sans">
+                <p class="text-zinc-300 leading-relaxed font-sans font-light">
                   Menguasai alur kerja Autodesk Revit hingga tingkat LOD 350 serta AutoCAD untuk menghasilkan gambar kerja yang presisi dan siap diimplementasikan.
                 </p>
               </div>
 
               <div class="p-3 bg-zinc-900/50 border border-zinc-800 rounded">
                 <span class="text-emerald-400 block font-bold mb-1">03. Kepekaan Urban & Placemaking Sosial:</span>
-                <p class="text-zinc-300 leading-relaxed font-sans">
+                <p class="text-zinc-300 leading-relaxed font-sans font-light">
                   Fokus pada bagaimana arsitektur dapat merajut kembali komunitas dan mengaktifkan ruang-ruang komersial yang mengalami penurunan vitalitas.
                 </p>
               </div>
@@ -668,7 +775,7 @@
 
     <!-- Recruiter Contact & CTA Section -->
     <section id="kontak" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="border border-sky-500/40 bg-zinc-950 p-8 md:p-12 rounded-lg relative overflow-hidden bg-cad-grid">
+      <div class="border border-sky-500/40 bg-zinc-950/90 p-8 md:p-12 rounded-lg relative overflow-hidden bg-cad-grid glass-panel shadow-[0_0_50px_rgba(56,189,248,0.15)]">
         
         <div class="max-w-3xl space-y-6">
           <div class="inline-block px-3 py-1 bg-sky-950 text-sky-400 border border-sky-700/80 rounded font-mono text-xs uppercase tracking-wider">
@@ -688,7 +795,7 @@
               href="https://www.linkedin.com/in/steven-nata-aa8a50403/"
               target="_blank"
               rel="noopener noreferrer"
-              class="px-6 py-3.5 bg-sky-500 hover:bg-sky-400 text-black font-semibold font-mono text-xs tracking-wider uppercase rounded transition-colors inline-flex items-center"
+              class="px-6 py-3.5 bg-sky-500 hover:bg-sky-400 text-black font-semibold font-mono text-xs tracking-wider uppercase rounded transition-colors inline-flex items-center shadow-[0_0_20px_rgba(56,189,248,0.5)]"
               onmouseenter="playCadSound('tick')"
             >
               <svg class="w-4 h-4 mr-2 fill-current" viewBox="0 0 24 24">
@@ -699,7 +806,7 @@
 
             <button 
               onclick="copyEmailToClipboard()"
-              class="px-6 py-3.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-700 font-mono text-xs tracking-wider uppercase rounded transition-colors inline-flex items-center"
+              class="px-6 py-3.5 bg-zinc-900/90 hover:bg-zinc-800 text-zinc-300 border border-zinc-700 font-mono text-xs tracking-wider uppercase rounded transition-colors inline-flex items-center glass-panel"
               onmouseenter="playCadSound('tick')"
             >
               <svg class="w-4 h-4 mr-2 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -720,7 +827,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
       <div>
         <span class="text-zinc-300 font-bold">STEVEN NATA, S.Ars</span> — Arsitektur Universitas Tarumanagara (UNTAR)
-        <p class="text-[11px] text-zinc-400 mt-0.5">Designed with Dark Blueprint & Brutalist System for GitHub Pages</p>
+        <p class="text-[11px] text-zinc-400 mt-0.5">Designed with Antigravity Spatial Motion & Dark Blueprint System for GitHub Pages</p>
       </div>
 
       <div class="flex items-center space-x-4 text-[11px]">
@@ -733,7 +840,7 @@
     </div>
   </footer>
 
-  <!-- Modal Deep-Dive Case Study (Hidden by default, triggered on project click) -->
+  <!-- Modal Deep-Dive Case Study -->
   <div 
     id="project-modal" 
     class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-md p-2 sm:p-4 md:p-6 overflow-y-auto"
@@ -743,7 +850,7 @@
   >
     <div 
       id="modal-container"
-      class="bg-zinc-950 border border-zinc-700 w-full max-w-6xl rounded-lg shadow-2xl overflow-hidden relative corner-marks my-auto max-h-[92vh] flex flex-col"
+      class="bg-zinc-950 border border-zinc-700 w-full max-w-6xl rounded-lg shadow-2xl overflow-hidden relative corner-marks my-auto max-h-[92vh] flex flex-col glass-panel"
     >
       <!-- Injected via script.js -->
     </div>

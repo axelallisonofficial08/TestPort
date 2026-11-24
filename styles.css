@@ -5,60 +5,130 @@
   --font-display: 'Space Grotesk', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   
-  --bg-primary: #080a0f;
-  --bg-secondary: #0f131c;
-  --bg-tertiary: #161b26;
+  --bg-deep: #05070b;
+  --bg-primary: #080b12;
+  --bg-secondary: #0f1422;
+  --bg-tertiary: #161c30;
   
-  --blueprint-ink: #38bdf8;
-  --blueprint-grid-sub: rgba(56, 189, 248, 0.05);
-  --blueprint-grid-major: rgba(56, 189, 248, 0.12);
-  --border-cad: rgba(255, 255, 255, 0.14);
+  --blueprint-cyan: #38bdf8;
+  --blueprint-amber: #fbbf24;
+  --blueprint-emerald: #34d399;
   
-  --accent-cyan: #38bdf8;
-  --accent-amber: #fbbf24;
-  --accent-emerald: #34d399;
-  --accent-red: #f87171;
+  --glass-bg: rgba(13, 18, 30, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-glow: rgba(56, 189, 248, 0.15);
+  
+  --grid-subtle: rgba(56, 189, 248, 0.04);
+  --grid-major: rgba(56, 189, 248, 0.1);
 }
 
 /* Blueprint Mode Toggle Overrides */
 body.blueprint-mode {
-  --bg-primary: #031526;
-  --bg-secondary: #06223d;
-  --bg-tertiary: #0a2f54;
-  --blueprint-ink: #7dd3fc;
-  --blueprint-grid-sub: rgba(125, 211, 252, 0.1);
-  --blueprint-grid-major: rgba(125, 211, 252, 0.25);
-  --border-cad: rgba(125, 211, 252, 0.35);
+  --bg-deep: #021020;
+  --bg-primary: #03182e;
+  --bg-secondary: #062646;
+  --bg-tertiary: #0a355f;
+  --blueprint-cyan: #7dd3fc;
+  --glass-bg: rgba(4, 30, 56, 0.82);
+  --glass-border: rgba(125, 211, 252, 0.25);
+  --glass-glow: rgba(125, 211, 252, 0.3);
+  --grid-subtle: rgba(125, 211, 252, 0.08);
+  --grid-major: rgba(125, 211, 252, 0.2);
   color: #e0f2fe;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--bg-primary);
+  background-color: var(--bg-deep);
   color: #e2e8f0;
   overflow-x: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
+  perspective: 1200px;
 }
 
 .font-display { font-family: var(--font-display); }
 .font-mono { font-family: var(--font-mono); }
 
+/* Antigravity Spatial Depth & Glassmorphism Panels */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.6), 0 0 30px -10px var(--glass-glow);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.8), 0 0 40px -5px var(--glass-glow);
+}
+
+/* Floating Antigravity Hover Effect */
+.antigravity-float {
+  animation: floatOrb 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+.antigravity-float-delay {
+  animation: floatOrb 7s ease-in-out infinite 2s;
+  will-change: transform;
+}
+
+@keyframes floatOrb {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(1deg); }
+}
+
+/* 3D Tilt Card Container */
+.tilt-card-container {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  will-change: transform;
+}
+
+.tilt-card-content {
+  transform: translateZ(28px);
+  transform-style: preserve-3d;
+}
+
+/* Dynamic Radial Sheen / Glare for Glass Surfaces */
+.radial-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle 350px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(56, 189, 248, 0.12), transparent 80%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.tilt-card:hover .radial-glare {
+  opacity: 1;
+}
+
 /* Technical CAD Grid Pattern */
 .bg-cad-grid {
   background-image: 
-    linear-gradient(to right, var(--blueprint-grid-sub) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--blueprint-grid-sub) 1px, transparent 1px);
-  background-size: 24px 24px;
+    linear-gradient(to right, var(--grid-subtle) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-subtle) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
 .bg-cad-major {
   background-image: 
-    linear-gradient(to right, var(--blueprint-grid-major) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--blueprint-grid-major) 1px, transparent 1px);
-  background-size: 120px 120px;
+    linear-gradient(to right, var(--grid-major) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-major) 1px, transparent 1px);
+  background-size: 140px 140px;
 }
 
-/* CAD Corner Registration Marks (Target & Crosshairs) */
+/* CAD Corner Registration Marks */
 .corner-marks {
   position: relative;
 }
@@ -70,9 +140,10 @@ body {
   font-family: var(--font-mono);
   font-size: 14px;
   line-height: 1;
-  color: var(--blueprint-ink);
-  opacity: 0.6;
+  color: var(--blueprint-cyan);
+  opacity: 0.7;
   pointer-events: none;
+  transition: opacity 0.3s ease;
 }
 
 .corner-marks::before {
@@ -85,7 +156,17 @@ body {
   right: -7px;
 }
 
-/* Technical Dimension Callout Lines */
+/* Glowing Ambient Gradient Lights */
+.ambient-glow {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: screen;
+}
+
+/* Technical Dimension Lines */
 .dimension-line {
   position: relative;
   display: flex;
@@ -99,52 +180,58 @@ body {
   left: 0;
   right: 0;
   height: 1px;
-  background: var(--blueprint-ink);
-  opacity: 0.4;
+  background: var(--blueprint-cyan);
+  opacity: 0.35;
   z-index: 0;
 }
 
 .dimension-line span {
   position: relative;
   z-index: 1;
-  background: var(--bg-primary);
+  background: var(--bg-deep);
   padding: 0 6px;
   font-family: var(--font-mono);
   font-size: 10px;
-  color: var(--blueprint-ink);
+  color: var(--blueprint-cyan);
 }
 
-/* Authentic Architectural Title Block (Kop Gambar) */
-.title-block {
-  border: 2px solid var(--border-cad);
-  background: rgba(10, 14, 22, 0.95);
+/* 3D Canvas Container */
+#hero-3d-canvas {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+
+#hero-3d-canvas:active {
+  cursor: grabbing;
+}
+
+/* 3D Model Control Toolbar */
+.model-control-btn {
   font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  color: #cbd5e1;
+  transition: all 0.2s ease;
 }
 
-.title-block-cell {
-  border-right: 1px solid var(--border-cad);
-  border-bottom: 1px solid var(--border-cad);
-  padding: 4px 8px;
+.model-control-btn:hover,
+.model-control-btn.active {
+  border-color: var(--blueprint-cyan);
+  color: #fff;
+  background: rgba(56, 189, 248, 0.2);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
 }
 
-/* Live HUD Coordinate Overlay */
-#cad-hud {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.05em;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* Interactive Crosshair Cursor on Drawing Viewers */
-.crosshair-target {
-  cursor: crosshair;
-}
-
-/* Sliders Styling for Simulation Widget */
+/* Range Slider Styling */
 input[type=range] {
   -webkit-appearance: none;
-  background: #1f2937;
+  background: #1e293b;
   height: 6px;
   border-radius: 3px;
   outline: none;
@@ -152,52 +239,16 @@ input[type=range] {
 
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border-radius: 2px;
-  background: var(--accent-cyan);
+  background: var(--blueprint-cyan);
   cursor: pointer;
   border: 2px solid #000;
-  box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
 }
 
-/* Custom technical scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #080a0f;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #27272a;
-  border-radius: 2px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-cyan);
-}
-
-/* Focus visible outlines */
-a:focus-visible,
-button:focus-visible,
-input:focus-visible {
-  outline: 2px solid var(--accent-cyan);
-  outline-offset: 2px;
-}
-
-/* Animations */
-@keyframes pulseSubtle {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
-}
-
-.animate-pulse-subtle {
-  animation: pulseSubtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
+/* Scanline Animation */
 @keyframes sweepScan {
   0% { transform: translateY(-100%); }
   100% { transform: translateY(1000%); }
@@ -209,8 +260,45 @@ input:focus-visible {
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
-  opacity: 0.25;
+  background: linear-gradient(90deg, transparent, var(--blueprint-cyan), transparent);
+  opacity: 0.35;
   pointer-events: none;
-  animation: sweepScan 6s linear infinite;
+  animation: sweepScan 5s linear infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--blueprint-cyan);
+}
+
+/* Focus Visible */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--blueprint-cyan);
+  outline-offset: 3px;
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
